@@ -55,8 +55,18 @@ export interface BrandInfo {
   description: string
 }
 
+export type SectionType = 'hero' | 'products' | 'benefits' | 'pricing' | 'reviews' | 'faq' | 'contact'
+
+export interface SectionLayout {
+  id: string
+  type: SectionType
+  label: string
+  visible: boolean
+}
+
 export interface SiteData {
   version: string
+  layout: SectionLayout[]
   brand: BrandInfo
   contacts: ContactChannel[]
   products: Product[]
@@ -351,8 +361,19 @@ export const defaultBrand: BrandInfo = {
   "description": "ผู้ให้บริการสินค้าดิจิทัลคุณภาพสูง พร้อมบริการหลังการขายที่ไว้วางใจได้ มุ่งมั่นพัฒนาสินค้าที่ตอบโจทย์ทุกความต้องการ"
 }
 
+export const defaultLayout: SectionLayout[] = [
+  { id: genId(), type: 'hero', label: 'ส่วนหัว (Hero)', visible: true },
+  { id: genId(), type: 'products', label: 'สินค้า (Products)', visible: true },
+  { id: genId(), type: 'benefits', label: 'ข้อดีของเรา (Benefits)', visible: true },
+  { id: genId(), type: 'pricing', label: 'แพ็กเกจราคา (Pricing)', visible: true },
+  { id: genId(), type: 'reviews', label: 'รีวิว (Reviews)', visible: true },
+  { id: genId(), type: 'faq', label: 'คำถามที่พบบ่อย (FAQ)', visible: true },
+  { id: genId(), type: 'contact', label: 'ช่องทางติดต่อ (Contact)', visible: true },
+]
+
 export const defaultSiteData: SiteData = {
   version: DATA_VERSION,
+  layout: defaultLayout,
   brand: defaultBrand,
   contacts: defaultContacts,
   products: defaultProducts,

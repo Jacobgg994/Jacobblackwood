@@ -9,6 +9,7 @@ import {
   type Review,
   type FAQItem,
   type BrandInfo,
+  type SectionLayout,
 } from '../data/defaultData.ts'
 
 const STORAGE_KEY = 'jacob_site_data'
@@ -17,6 +18,10 @@ const STORAGE_KEY = 'jacob_site_data'
 
 interface SiteDataContextValue {
   data: SiteData
+
+  /* layout */
+  setLayout: (layout: SectionLayout[]) => void
+  updateLayoutItem: (id: string, update: Partial<SectionLayout>) => void
 
   /* brand */
   updateBrand: (brand: BrandInfo) => void
@@ -55,7 +60,7 @@ interface SiteDataContextValue {
   resetAll: () => void
 }
 
-const SiteDataContext = createContext<SiteDataContextValue | null>(null)
+export const SiteDataContext = createContext<SiteDataContextValue | null>(null)
 
 /* ---------- provider ---------- */
 
@@ -133,6 +138,10 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
   const removeFaq = (id: string) =>
     setData(p => ({ ...p, faqs: p.faqs.filter(x => x.id !== id) }))
 
+  /* layout actions */
+  const setLayout = (layout: SectionLayout[]) => setData(p => ({ ...p, layout }))
+  const updateLayoutItem = (id: string, update: Partial<SectionLayout>) => setData(p => ({ ...p, layout: p.layout.map(i => i.id === id ? { ...i, ...update } : i) }))
+
   /* reset */
   const resetAll = () => {
     localStorage.removeItem(STORAGE_KEY)
@@ -148,6 +157,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
       setPricing, addPricingPlan, updatePricingPlan, removePricingPlan,
       setReviews, addReview, updateReview, removeReview,
       setFaqs, addFaq, updateFaq, removeFaq,
+      setLayout, updateLayoutItem,
       resetAll,
     }}>
       {children}

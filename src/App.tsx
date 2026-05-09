@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { SiteDataProvider } from './context/SiteDataContext.tsx'
+import { SiteDataProvider, SiteDataContext } from './context/SiteDataContext.tsx'
 import Header from './components/Header.tsx'
 import HeroSection from './components/HeroSection.tsx'
 import ProductSection from './components/ProductSection.tsx'
@@ -52,13 +52,21 @@ export default function App() {
         <div className="min-h-screen bg-white text-gray-800">
           <Header />
           <main>
-            <HeroSection />
-            <ProductSection />
-            <BenefitSection />
-            <PricingSection />
-            <ReviewSection />
-            <FAQSection />
-            <ContactSection />
+            <SiteDataContext.Consumer>
+              {ctx => ctx?.data.layout.map(section => {
+                if (!section.visible) return null
+                switch (section.type) {
+                  case 'hero': return <HeroSection key={section.id} />
+                  case 'products': return <ProductSection key={section.id} />
+                  case 'benefits': return <BenefitSection key={section.id} />
+                  case 'pricing': return <PricingSection key={section.id} />
+                  case 'reviews': return <ReviewSection key={section.id} />
+                  case 'faq': return <FAQSection key={section.id} />
+                  case 'contact': return <ContactSection key={section.id} />
+                  default: return null
+                }
+              })}
+            </SiteDataContext.Consumer>
           </main>
           <Footer />
         </div>

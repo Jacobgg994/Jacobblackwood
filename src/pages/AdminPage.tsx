@@ -23,12 +23,12 @@ const productIconOptions = [
   { value: 'gear', label: '⚙️ ระบบ' },
 ] as const
 
-type Tab = 'contacts' | 'products' | 'pricing' | 'reviews' | 'faqs' | 'brand'
+type Tab = 'layout' | 'brand' | 'products' | 'pricing' | 'reviews' | 'faqs' | 'contacts'
 
 /* ══════════════════════════════════════ */
 export default function AdminPage({ onBack, onLogout }: { onBack: () => void; onLogout?: () => void }) {
   const ctx = useSiteData()
-  const [tab, setTab] = useState<Tab>('contacts')
+  const [tab, setTab] = useState<Tab>('layout')
   const [toast, setToast] = useState('')
   const [deploying, setDeploying] = useState(false)
 
@@ -60,12 +60,13 @@ export default function AdminPage({ onBack, onLogout }: { onBack: () => void; on
   }
 
   const tabs: { key: Tab; label: string; icon: string }[] = [
+    { key: 'layout', label: 'โครงสร้างเว็บ', icon: '🧩' },
+    { key: 'brand', label: 'แบรนด์', icon: '🏷️' },
     { key: 'contacts', label: 'ช่องทางติดต่อ', icon: '📱' },
     { key: 'products', label: 'สินค้า', icon: '📦' },
     { key: 'pricing', label: 'แพ็กเกจราคา', icon: '💰' },
     { key: 'reviews', label: 'รีวิว', icon: '⭐' },
     { key: 'faqs', label: 'คำถามที่พบบ่อย', icon: '❓' },
-    { key: 'brand', label: 'แบรนด์', icon: '🏷️' },
   ]
 
   return (
@@ -130,12 +131,13 @@ export default function AdminPage({ onBack, onLogout }: { onBack: () => void; on
 
         {/* Tab content */}
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
+          {tab === 'layout' && <LayoutTab ctx={ctx} showToast={showToast} />}
+          {tab === 'brand' && <BrandTab ctx={ctx} showToast={showToast} />}
           {tab === 'contacts' && <ContactsTab ctx={ctx} showToast={showToast} />}
           {tab === 'products' && <ProductsTab ctx={ctx} showToast={showToast} />}
           {tab === 'pricing' && <PricingTab ctx={ctx} showToast={showToast} />}
           {tab === 'reviews' && <ReviewsTab ctx={ctx} showToast={showToast} />}
           {tab === 'faqs' && <FaqsTab ctx={ctx} showToast={showToast} />}
-          {tab === 'brand' && <BrandTab ctx={ctx} showToast={showToast} />}
         </div>
       </div>
     </div>
@@ -148,6 +150,70 @@ const labelCls = 'block text-xs font-semibold text-gray-500 mb-1'
 const cardCls = 'bg-gray-50 rounded-xl p-4 border border-gray-100'
 const addBtnCls = 'inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-semibold text-blue-600 bg-blue-50 border border-blue-200 rounded-xl hover:bg-blue-100 transition'
 const delBtnCls = 'p-1.5 rounded-lg text-red-400 hover:text-red-600 hover:bg-red-50 transition'
+
+/* ═══════ Layout ═══════ */
+function LayoutTab({ ctx }: { ctx: ReturnType<typeof useSiteData>; showToast: (m: string) => void }) {
+  const { data, updateLayoutItem, setLayout } = ctx
+
+  function moveUp(index: number) {
+    if (index === 0) return
+    const newLayout = [...data.layout]
+    const temp = newLayout[index - 1]
+    newLayout[index - 1] = newLayout[index]
+    newLayout[index] = temp
+    setLayout(newLayout)
+  }
+
+  function moveDown(index: number) {
+    if (index === data.layout.length - 1) return
+    const newLayout = [...data.layout]
+    const temp = newLayout[index + 1]
+    newLayout[index + 1] = newLayout[index]
+    newLayout[index] = temp
+    setLayout(newLayout)
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-base font-bold text-gray-800">🧩 โครงสร้างเว็บ ({data.layout.length} ส่วน)</h2>
+      </div>
+      <div className="space-y-3">
+        {data.layout.map((item, i) => (
+          <div key={item.id} className={`${cardCls} flex items-center justify-between`}>
+            <div className="flex items-center gap-4">
+              <span className="text-lg text-gray-400 font-bold w-6">{i + 1}</span>
+              <div className="flex flex-col">
+                <span className={`text-base font-semibold ${item.visible ? 'text-gray-900' : 'text-gray-400 line-through'}`}>{item.label}</span>
+                <span className="text-xs text-gray-400">ชนิด: {item.type}</span>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              {/* Visibility Toggle */}
+              <button 
+                onClick={() => updateLayoutItem(item.id, { visible: !item.visible })}
+                className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition ${item.visible ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+              >
+                {item.visible ? '👁️ แสดง' : '🙈 ซ่อน'}
+              </button>
+              
+              {/* Order Controls */}
+              <div className="flex items-center gap-1 bg-gray-50 rounded-lg p-1 border border-gray-100">
+                <button onClick={() => moveUp(i)} disabled={i === 0} className={`p-1.5 rounded-md ${i === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white hover:shadow-sm text-gray-600'}`}>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
+                </button>
+                <button onClick={() => moveDown(i)} disabled={i === data.layout.length - 1} className={`p-1.5 rounded-md ${i === data.layout.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white hover:shadow-sm text-gray-600'}`}>
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <p className="text-xs text-gray-400 mt-6 text-center">เคล็ดลับ: คุณสามารถกดลูกศร ⬆️ ⬇️ เพื่อจัดเรียงตำแหน่งของแต่ละส่วน และกด 👁️/🙈 เพื่อซ่อนหรือเปิดแสดงผลได้</p>
+    </div>
+  )
+}
 
 /* ═══════ Contacts ═══════ */
 function ContactsTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; showToast: (m: string) => void }) {
