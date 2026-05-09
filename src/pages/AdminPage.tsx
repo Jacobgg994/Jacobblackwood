@@ -25,7 +25,7 @@ const productIconOptions = [
 type Tab = 'contacts' | 'products' | 'reviews' | 'faqs' | 'brand'
 
 /* ══════════════════════════════════════ */
-export default function AdminPage({ onBack }: { onBack: () => void }) {
+export default function AdminPage({ onBack, onLogout }: { onBack: () => void; onLogout?: () => void }) {
   const ctx = useSiteData()
   const [tab, setTab] = useState<Tab>('contacts')
   const [toast, setToast] = useState('')
@@ -58,6 +58,12 @@ export default function AdminPage({ onBack }: { onBack: () => void }) {
               className="px-3 py-2 text-xs font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition">
               🔄 รีเซ็ตทั้งหมด
             </button>
+            {onLogout && (
+              <button onClick={onLogout}
+                className="px-3 py-2 text-xs font-medium text-gray-600 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition">
+                🚪 ออกจากระบบ
+              </button>
+            )}
             <button onClick={onBack}
               className="px-4 py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
               👁️ ดูหน้าเว็บ

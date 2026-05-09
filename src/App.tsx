@@ -10,8 +10,10 @@ import FAQSection from './components/FAQSection.tsx'
 import ContactSection from './components/ContactSection.tsx'
 import Footer from './components/Footer.tsx'
 import AdminPage from './pages/AdminPage.tsx'
+import AdminLogin from './pages/AdminLogin.tsx'
 
-/* Simple hash-based routing */
+const SESSION_KEY = 'digitalpro_admin_auth'
+
 function useHashRoute() {
   const [route, setRoute] = useState(window.location.hash)
   useEffect(() => {
@@ -25,11 +27,27 @@ function useHashRoute() {
 export default function App() {
   const route = useHashRoute()
   const isAdmin = route === '#admin'
+  const [authed, setAuthed] = useState(() => sessionStorage.getItem(SESSION_KEY) === 'true')
+
+  function handleLogin() {
+    sessionStorage.setItem(SESSION_KEY, 'true')
+    setAuthed(true)
+  }
+
+  function handleLogout() {
+    sessionStorage.removeItem(SESSION_KEY)
+    setAuthed(false)
+    window.location.hash = ''
+  }
 
   return (
     <SiteDataProvider>
       {isAdmin ? (
-        <AdminPage onBack={() => { window.location.hash = '' }} />
+        authed ? (
+          <AdminPage onBack={() => { window.location.hash = '' }} onLogout={handleLogout} />
+        ) : (
+          <AdminLogin onSuccess={handleLogin} onBack={() => { window.location.hash = '' }} />
+        )
       ) : (
         <div className="min-h-screen bg-white text-gray-800">
           <Header />
