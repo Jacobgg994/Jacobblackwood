@@ -54,6 +54,7 @@ export interface BrandInfo {
 }
 
 export interface SiteData {
+  version: string
   brand: BrandInfo
   contacts: ContactChannel[]
   products: Product[]
@@ -61,6 +62,12 @@ export interface SiteData {
   reviews: Review[]
   faqs: FAQItem[]
 }
+
+/*
+  DATA_VERSION changes every time the admin deploys new data.
+  If the version in localStorage doesn't match, we discard the old cache.
+*/
+export const DATA_VERSION = '20260509_v1'
 
 /* ---------- helpers ---------- */
 let _counter = 0
@@ -324,6 +331,7 @@ export const defaultBrand: BrandInfo = {
 }
 
 export const defaultSiteData: SiteData = {
+  version: DATA_VERSION,
   brand: defaultBrand,
   contacts: defaultContacts,
   products: defaultProducts,

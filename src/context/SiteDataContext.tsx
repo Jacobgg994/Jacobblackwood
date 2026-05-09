@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react'
 import {
   defaultSiteData,
+  DATA_VERSION,
   type SiteData,
   type ContactChannel,
   type Product,
@@ -61,7 +62,15 @@ const SiteDataContext = createContext<SiteDataContextValue | null>(null)
 function loadFromStorage(): SiteData {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw) return JSON.parse(raw) as SiteData
+    if (raw) {
+      const stored = JSON.parse(raw) as SiteData
+      // If version doesn't match (new deploy happened), use fresh defaults
+      if (stored.version !== DATA_VERSION) {
+        localStorage.removeItem(STORAGE_KEY)
+        return defaultSiteData
+      }
+      return stored
+    }
   } catch { /* ignore */ }
   return defaultSiteData
 }
