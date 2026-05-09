@@ -23,7 +23,7 @@ const productIconOptions = [
   { value: 'gear', label: '⚙️ ระบบ' },
 ] as const
 
-type Tab = 'contacts' | 'products' | 'reviews' | 'faqs' | 'brand'
+type Tab = 'contacts' | 'products' | 'pricing' | 'reviews' | 'faqs' | 'brand'
 
 /* ══════════════════════════════════════ */
 export default function AdminPage({ onBack, onLogout }: { onBack: () => void; onLogout?: () => void }) {
@@ -36,6 +36,7 @@ export default function AdminPage({ onBack, onLogout }: { onBack: () => void; on
   const tabs: { key: Tab; label: string; icon: string }[] = [
     { key: 'contacts', label: 'ช่องทางติดต่อ', icon: '📱' },
     { key: 'products', label: 'สินค้า', icon: '📦' },
+    { key: 'pricing', label: 'แพ็กเกจราคา', icon: '💰' },
     { key: 'reviews', label: 'รีวิว', icon: '⭐' },
     { key: 'faqs', label: 'คำถามที่พบบ่อย', icon: '❓' },
     { key: 'brand', label: 'แบรนด์', icon: '🏷️' },
@@ -97,6 +98,7 @@ export default function AdminPage({ onBack, onLogout }: { onBack: () => void; on
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
           {tab === 'contacts' && <ContactsTab ctx={ctx} showToast={showToast} />}
           {tab === 'products' && <ProductsTab ctx={ctx} showToast={showToast} />}
+          {tab === 'pricing' && <PricingTab ctx={ctx} showToast={showToast} />}
           {tab === 'reviews' && <ReviewsTab ctx={ctx} showToast={showToast} />}
           {tab === 'faqs' && <FaqsTab ctx={ctx} showToast={showToast} />}
           {tab === 'brand' && <BrandTab ctx={ctx} showToast={showToast} />}
@@ -340,6 +342,117 @@ function BrandTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; sho
           <label className={labelCls}>คำอธิบาย</label>
           <textarea value={b.description} onChange={e => updateBrand({ ...b, description: e.target.value })} className={inputCls + ' min-h-[80px]'} />
         </div>
+      </div>
+    </div>
+  )
+}
+
+/* ═══════ Pricing ═══════ */
+function PricingTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; showToast: (m: string) => void }) {
+  const { data, updatePricingPlan } = ctx
+
+  function toggleFeatured(id: string, current: boolean) {
+    // Only one plan can be featured
+    data.pricing.forEach(p => {
+      if (p.id === id) updatePricingPlan(p.id, { featured: !current })
+      else if (p.featured) updatePricingPlan(p.id, { featured: false })
+    })
+    showToast('บันทึกแล้ว')
+  }
+
+  function updateFeatureText(planId: string, featureIdx: number, text: string) {
+    const plan = data.pricing.find(p => p.id === planId)
+    if (!plan) return
+    const features = plan.features.map((f, i) => i === featureIdx ? { ...f, text } : f)
+    updatePricingPlan(planId, { features })
+  }
+
+  function toggleFeature(planId: string, featureIdx: number) {
+    const plan = data.pricing.find(p => p.id === planId)
+    if (!plan) return
+    const features = plan.features.map((f, i) => i === featureIdx ? { ...f, included: !f.included } : f)
+    updatePricingPlan(planId, { features })
+  }
+
+  function addFeature(planId: string) {
+    const plan = data.pricing.find(p => p.id === planId)
+    if (!plan) return
+    updatePricingPlan(planId, { features: [...plan.features, { text: 'ฟีเจอร์ใหม่', included: true }] })
+    showToast('เพิ่มฟีเจอร์แล้ว')
+  }
+
+  function removeFeature(planId: string, featureIdx: number) {
+    const plan = data.pricing.find(p => p.id === planId)
+    if (!plan) return
+    updatePricingPlan(planId, { features: plan.features.filter((_, i) => i !== featureIdx) })
+    showToast('ลบฟีเจอร์แล้ว')
+  }
+
+  return (
+    <div>
+      <h2 className="text-base font-bold text-gray-800 mb-4">💰 แพ็กเกจราคา ({data.pricing.length})</h2>
+      <div className="space-y-6">
+        {data.pricing.map((plan, i) => (
+          <div key={plan.id} className={`rounded-xl border p-5 ${plan.featured ? 'border-blue-300 bg-blue-50/30' : 'border-gray-100 bg-gray-50'}`}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-lg font-bold text-gray-400">{i + 1}</span>
+                <span className="text-sm font-bold text-gray-800">{plan.name}</span>
+                {plan.featured && <span className="px-2 py-0.5 text-[10px] font-bold text-blue-600 bg-blue-100 rounded-full">⭐ แนะนำ</span>}
+              </div>
+              <button onClick={() => toggleFeatured(plan.id, plan.featured)}
+                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${plan.featured ? 'text-blue-600 bg-blue-100 hover:bg-blue-200' : 'text-gray-500 bg-gray-100 hover:bg-gray-200'}`}>
+                {plan.featured ? '✓ แนะนำอยู่' : 'ตั้งเป็นแนะนำ'}
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+              <div>
+                <label className={labelCls}>ชื่อ EN</label>
+                <input value={plan.name} onChange={e => updatePricingPlan(plan.id, { name: e.target.value })} className={inputCls} />
+              </div>
+              <div>
+                <label className={labelCls}>ชื่อ TH</label>
+                <input value={plan.nameTh} onChange={e => updatePricingPlan(plan.id, { nameTh: e.target.value })} className={inputCls} />
+              </div>
+              <div>
+                <label className={labelCls}>ราคา</label>
+                <input value={plan.price} onChange={e => updatePricingPlan(plan.id, { price: e.target.value })} className={inputCls} placeholder="เช่น 1,990" />
+              </div>
+              <div>
+                <label className={labelCls}>ต่อ</label>
+                <input value={plan.period} onChange={e => updatePricingPlan(plan.id, { period: e.target.value })} className={inputCls} placeholder="/เดือน" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className={labelCls}>คำอธิบาย</label>
+                <input value={plan.desc} onChange={e => updatePricingPlan(plan.id, { desc: e.target.value })} className={inputCls} />
+              </div>
+              <div className="sm:col-span-2">
+                <label className={labelCls}>ข้อความปุ่ม CTA</label>
+                <input value={plan.cta} onChange={e => updatePricingPlan(plan.id, { cta: e.target.value })} className={inputCls} />
+              </div>
+            </div>
+
+            {/* Features */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className={labelCls}>ฟีเจอร์</label>
+                <button onClick={() => addFeature(plan.id)} className="text-xs text-blue-600 hover:text-blue-700 font-semibold">+ เพิ่มฟีเจอร์</button>
+              </div>
+              <div className="space-y-1.5">
+                {plan.features.map((f, fi) => (
+                  <div key={fi} className="flex items-center gap-2">
+                    <button onClick={() => toggleFeature(plan.id, fi)} className={`shrink-0 w-6 h-6 rounded-md flex items-center justify-center text-xs transition ${f.included ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
+                      {f.included ? '✓' : '✗'}
+                    </button>
+                    <input value={f.text} onChange={e => updateFeatureText(plan.id, fi, e.target.value)} className={inputCls + ' flex-1'} />
+                    <button onClick={() => removeFeature(plan.id, fi)} className="text-red-300 hover:text-red-500 transition text-xs">✕</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   )
