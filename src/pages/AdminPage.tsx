@@ -349,7 +349,16 @@ function BrandTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; sho
 
 /* ═══════ Pricing ═══════ */
 function PricingTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; showToast: (m: string) => void }) {
-  const { data, updatePricingPlan } = ctx
+  const { data, updatePricingPlan, addPricingPlan, removePricingPlan } = ctx
+
+  function handleAdd() {
+    addPricingPlan({
+      id: genId(), name: 'New Plan', nameTh: 'แพ็กเกจใหม่', price: '0', period: '/เดือน',
+      desc: '', featured: false, cta: 'สั่งซื้อเลย',
+      features: [{ text: 'ฟีเจอร์ 1', included: true }],
+    })
+    showToast('เพิ่มแพ็กเกจแล้ว')
+  }
 
   function toggleFeatured(id: string, current: boolean) {
     // Only one plan can be featured
@@ -390,7 +399,10 @@ function PricingTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; s
 
   return (
     <div>
-      <h2 className="text-base font-bold text-gray-800 mb-4">💰 แพ็กเกจราคา ({data.pricing.length})</h2>
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-base font-bold text-gray-800">💰 แพ็กเกจราคา ({data.pricing.length})</h2>
+        <button onClick={handleAdd} className={addBtnCls}>+ เพิ่มแพ็กเกจ</button>
+      </div>
       <div className="space-y-6">
         {data.pricing.map((plan, i) => (
           <div key={plan.id} className={`rounded-xl border p-5 ${plan.featured ? 'border-blue-300 bg-blue-50/30' : 'border-gray-100 bg-gray-50'}`}>
@@ -403,6 +415,11 @@ function PricingTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; s
               <button onClick={() => toggleFeatured(plan.id, plan.featured)}
                 className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${plan.featured ? 'text-blue-600 bg-blue-100 hover:bg-blue-200' : 'text-gray-500 bg-gray-100 hover:bg-gray-200'}`}>
                 {plan.featured ? '✓ แนะนำอยู่' : 'ตั้งเป็นแนะนำ'}
+              </button>
+              <button onClick={() => { removePricingPlan(plan.id); showToast('ลบแพ็กเกจเรียบร้อย') }} className={delBtnCls} title="ลบ">
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
               </button>
             </div>
 

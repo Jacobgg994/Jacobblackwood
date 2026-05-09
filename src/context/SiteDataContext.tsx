@@ -34,7 +34,9 @@ interface SiteDataContextValue {
 
   /* pricing */
   setPricing: (pricing: PricingPlan[]) => void
+  addPricingPlan: (plan: PricingPlan) => void
   updatePricingPlan: (id: string, plan: Partial<PricingPlan>) => void
+  removePricingPlan: (id: string) => void
 
   /* reviews */
   setReviews: (reviews: Review[]) => void
@@ -100,8 +102,11 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
 
   /* pricing */
   const setPricing = (pricing: PricingPlan[]) => patch({ pricing })
+  const addPricingPlan = (plan: PricingPlan) => setData(p => ({ ...p, pricing: [...p.pricing, plan] }))
   const updatePricingPlan = (id: string, plan: Partial<PricingPlan>) =>
     setData(p => ({ ...p, pricing: p.pricing.map(x => x.id === id ? { ...x, ...plan } : x) }))
+  const removePricingPlan = (id: string) =>
+    setData(p => ({ ...p, pricing: p.pricing.filter(x => x.id !== id) }))
 
   /* reviews */
   const setReviews = (reviews: Review[]) => patch({ reviews })
@@ -131,7 +136,7 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
       updateBrand,
       setContacts, addContact, updateContact, removeContact,
       setProducts, addProduct, updateProduct, removeProduct,
-      setPricing, updatePricingPlan,
+      setPricing, addPricingPlan, updatePricingPlan, removePricingPlan,
       setReviews, addReview, updateReview, removeReview,
       setFaqs, addFaq, updateFaq, removeFaq,
       resetAll,

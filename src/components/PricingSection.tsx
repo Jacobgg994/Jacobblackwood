@@ -14,7 +14,11 @@ export default function PricingSection() {
           <p className="text-gray-500 text-lg">ราคาเป็นกันเอง คุ้มค่าทุกบาท พร้อมทดลองใช้ฟรี 7 วัน</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8 items-start">
+        <div className={`grid gap-6 lg:gap-8 items-start ${
+          data.pricing.length <= 3 ? 'md:grid-cols-3' :
+          data.pricing.length === 4 ? 'md:grid-cols-2 lg:grid-cols-4' :
+          'md:grid-cols-2 lg:grid-cols-3'
+        }`}>
           {data.pricing.map((plan, i) => (
             <div key={plan.id} className={`relative bg-white rounded-2xl border transition-all duration-300 ${
               plan.featured ? 'border-primary-200 shadow-2xl shadow-primary-600/10 scale-[1.03] md:scale-105 z-10' : 'border-gray-100 shadow-sm hover:shadow-lg hover:shadow-gray-200/50'
