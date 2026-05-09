@@ -223,7 +223,7 @@ function ProductsTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; 
           <div key={p.id} className={cardCls}>
             <div className="flex items-start gap-3">
               <span className="text-lg mt-1 text-gray-400 font-bold">{i + 1}</span>
-              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                 <div>
                   <label className={labelCls}>ไอคอน</label>
                   <select value={p.iconType} onChange={e => updateProduct(p.id, { iconType: e.target.value as Product['iconType'] })} className={inputCls}>
@@ -238,9 +238,13 @@ function ProductsTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; 
                   <label className={labelCls}>จุดเด่น</label>
                   <input value={p.highlight} onChange={e => updateProduct(p.id, { highlight: e.target.value })} className={inputCls} />
                 </div>
-                <div>
+                <div className="sm:col-span-2 lg:col-span-3">
                   <label className={labelCls}>รายละเอียด</label>
                   <input value={p.desc} onChange={e => updateProduct(p.id, { desc: e.target.value })} className={inputCls} />
+                </div>
+                <div className="sm:col-span-2 lg:col-span-3">
+                  <label className={labelCls}>URL รูปภาพ (เว้นว่างเพื่อใช้ไอคอน)</label>
+                  <input value={p.image || ''} onChange={e => updateProduct(p.id, { image: e.target.value })} className={inputCls} placeholder="https://..." />
                 </div>
               </div>
               <button onClick={() => { removeProduct(p.id); showToast('ลบสินค้าเรียบร้อย') }} className={delBtnCls} title="ลบ">

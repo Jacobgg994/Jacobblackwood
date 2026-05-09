@@ -42,11 +42,17 @@ export default function ProductSection() {
             const style = iconStyles[product.iconType] || iconStyles.gear
             return (
               <div key={product.id} className={`group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-primary-600/5 hover:-translate-y-1 transition-all duration-300 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: `${i * 0.1}s` }}>
-                <div className={`w-14 h-14 rounded-2xl ${style.bgLight} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
-                  <div className={`bg-gradient-to-br ${style.color} bg-clip-text text-transparent`}>
-                    <ProductIcon type={product.iconType} />
+                {product.image ? (
+                  <div className="w-full h-48 mb-5 overflow-hidden rounded-xl bg-gray-100 flex items-center justify-center">
+                    <img src={product.image} alt={product.name} className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300" />
                   </div>
-                </div>
+                ) : (
+                  <div className={`w-14 h-14 rounded-2xl ${style.bgLight} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}>
+                    <div className={`bg-gradient-to-br ${style.color} bg-clip-text text-transparent`}>
+                      <ProductIcon type={product.iconType} />
+                    </div>
+                  </div>
+                )}
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{product.name}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed mb-4">{product.desc}</p>
                 {product.highlight && (

@@ -18,6 +18,7 @@ export interface Product {
   desc: string
   highlight: string
   iconType: 'database' | 'shield' | 'chart' | 'chat' | 'shop' | 'gear'
+  image?: string
 }
 
 export interface PricingPlan {
