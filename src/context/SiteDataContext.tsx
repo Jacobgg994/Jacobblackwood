@@ -10,7 +10,7 @@ import {
   type BrandInfo,
 } from '../data/defaultData.ts'
 
-const STORAGE_KEY = 'digitalpro_site_data'
+const STORAGE_KEY = 'jacob_site_data'
 
 /* ---------- context shape ---------- */
 

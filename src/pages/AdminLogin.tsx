@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 */
 const ADMIN_USER = 'admin'
 
-const LOCKOUT_KEY = 'digitalpro_lockout'
+const LOCKOUT_KEY = 'jacob_lockout'
 const MAX_ATTEMPTS = 5
 const LOCKOUT_DURATION = 5 * 60 * 1000 // 5 minutes
 

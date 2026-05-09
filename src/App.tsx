@@ -12,7 +12,7 @@ import Footer from './components/Footer.tsx'
 import AdminPage from './pages/AdminPage.tsx'
 import AdminLogin from './pages/AdminLogin.tsx'
 
-const SESSION_KEY = 'digitalpro_admin_auth'
+const SESSION_KEY = 'jacob_admin_auth'
 
 function useHashRoute() {
   const [route, setRoute] = useState(window.location.hash)

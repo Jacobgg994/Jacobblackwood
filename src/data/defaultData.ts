@@ -71,10 +71,10 @@ export function genId(): string {
 /* ---------- defaults ---------- */
 
 export const defaultContacts: ContactChannel[] = [
-  { id: genId(), name: 'LINE OA', value: '@digitalpro', link: '#', iconType: 'line' },
-  { id: genId(), name: 'Facebook', value: 'DigitalPro Official', link: '#', iconType: 'facebook' },
+  { id: genId(), name: 'LINE OA', value: '@jacobstore', link: '#', iconType: 'line' },
+  { id: genId(), name: 'Facebook', value: 'JACOB Official', link: '#', iconType: 'facebook' },
   { id: genId(), name: 'เบอร์โทร', value: '02-XXX-XXXX', link: 'tel:02XXXXXXXX', iconType: 'phone' },
-  { id: genId(), name: 'Email', value: 'support@digitalpro.th', link: 'mailto:support@digitalpro.th', iconType: 'email' },
+  { id: genId(), name: 'Email', value: 'support@jacob.th', link: 'mailto:support@jacob.th', iconType: 'email' },
 ]
 
 export const defaultProducts: Product[] = [
@@ -139,11 +139,11 @@ export const defaultFaqs: FAQItem[] = [
   { id: genId(), q: 'ชำระเงินช่องทางไหน?', a: 'รองรับหลายช่องทาง ได้แก่ โอนผ่านธนาคาร (SCB, KBank, BBL), PromptPay, บัตรเครดิต/เดบิต และ TrueMoney Wallet สะดวกทุกช่องทาง' },
   { id: genId(), q: 'หลังซื้อได้รับอะไร?', a: 'หลังชำระเงินเรียบร้อย คุณจะได้รับลิงก์เข้าสู่ระบบ พร้อมคู่มือการใช้งาน และข้อมูลการเข้าถึงทั้งหมดผ่านทาง Email และ LINE ภายใน 10 นาที' },
   { id: genId(), q: 'มีบริการทดลองใช้ฟรีไหม?', a: 'มีครับ! ทุกแพ็กเกจสามารถทดลองใช้ฟรี 7 วัน โดยไม่ต้องผูกบัตรเครดิต หากไม่พอใจสามารถยกเลิกได้ทันทีโดยไม่มีค่าใช้จ่าย' },
-  { id: genId(), q: 'ติดต่อแอดมินได้ที่ไหน?', a: 'ติดต่อได้ทุกช่องทาง ทั้ง LINE OA: @digitalpro, Facebook Page, Email: support@digitalpro.th หรือโทร 02-XXX-XXXX ทีมงานพร้อมให้บริการ 24 ชั่วโมง' },
+  { id: genId(), q: 'ติดต่อแอดมินได้ที่ไหน?', a: 'ติดต่อได้ทุกช่องทาง ทั้ง LINE OA: @jacobstore, Facebook Page, Email: support@jacob.th หรือโทร 02-XXX-XXXX ทีมงานพร้อมให้บริการ 24 ชั่วโมง' },
 ]
 
 export const defaultBrand: BrandInfo = {
-  name: 'DigitalPro',
+  name: 'JACOB',
   tagline: 'บริการดิจิทัลคุณภาพสูง',
   description: 'ผู้ให้บริการสินค้าดิจิทัลคุณภาพสูง พร้อมบริการหลังการขายที่ไว้วางใจได้ มุ่งมั่นพัฒนาสินค้าที่ตอบโจทย์ทุกความต้องการ',
 }

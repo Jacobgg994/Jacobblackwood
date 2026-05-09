@@ -36,8 +36,7 @@ export default function Header() {
               </svg>
             </div>
             <span className="text-xl font-bold tracking-tight">
-              <span className="gradient-text">Digital</span>
-              <span className="text-gray-800">Pro</span>
+              <span className="gradient-text">JACOB</span>
             </span>
           </a>
 
