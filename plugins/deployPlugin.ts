@@ -94,6 +94,7 @@ function generateDefaultDataTs(data: any, version: string): string {
     `  highlight: string`,
     `  iconType: 'database' | 'shield' | 'chart' | 'chat' | 'shop' | 'gear'`,
     `  image?: string`,
+    `  brand?: string`,
     `}`,
     ``,
     `export interface PricingPlan {`,

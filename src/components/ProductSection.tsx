@@ -1,6 +1,7 @@
 import { useInView } from '../hooks/useInView.ts'
 import { useSiteData } from '../context/SiteDataContext.tsx'
 import type { Product } from '../data/defaultData.ts'
+import { useState } from 'react'
 
 /* ── Icon map ── */
 function ProductIcon({ type }: { type: Product['iconType'] }) {
@@ -29,16 +30,47 @@ export default function ProductSection() {
   const { ref, inView } = useInView(0.1)
   const { data } = useSiteData()
 
+  const [activeBrand, setActiveBrand] = useState<string | null>(null)
+
+  // Get unique brands
+  const brands = Array.from(new Set(data.products.map(p => p.brand).filter(Boolean))) as string[]
+
+  const filteredProducts = activeBrand 
+    ? data.products.filter(p => p.brand === activeBrand)
+    : data.products
+
   return (
     <section id="products" className="py-20 sm:py-28 bg-[#F8FAFC]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
-        <div className={`text-center max-w-2xl mx-auto mb-16 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`}>
+        <div className={`text-center max-w-2xl mx-auto mb-10 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`}>
           <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary-600 bg-primary-50 border border-primary-100 rounded-full mb-4">สินค้าของเรา</span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">บริการ<span className="gradient-text">ครบวงจร</span>ที่ตอบโจทย์</h2>
           <p className="text-gray-500 text-lg">เลือกสินค้าและบริการที่เหมาะกับธุรกิจของคุณ ทุกผลิตภัณฑ์ผ่านการพัฒนาอย่างพิถีพิถัน</p>
         </div>
+
+        {/* Brand Tabs */}
+        {brands.length > 0 && (
+          <div className={`flex flex-wrap justify-center gap-2 mb-12 ${inView ? 'animate-fade-in-up delay-100' : 'opacity-0'}`}>
+            <button 
+              onClick={() => setActiveBrand(null)}
+              className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${activeBrand === null ? 'bg-primary-600 text-white shadow-md' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+            >
+              ทั้งหมด
+            </button>
+            {brands.map(brand => (
+              <button 
+                key={brand}
+                onClick={() => setActiveBrand(brand)}
+                className={`px-5 py-2 rounded-full text-sm font-semibold transition-all duration-300 ${activeBrand === brand ? 'bg-primary-600 text-white shadow-md' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}
+              >
+                {brand}
+              </button>
+            ))}
+          </div>
+        )}
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {data.products.map((product, i) => {
+          {filteredProducts.map((product, i) => {
             const style = iconStyles[product.iconType] || iconStyles.gear
             return (
               <div key={product.id} className={`group bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-xl hover:shadow-primary-600/5 hover:-translate-y-1 transition-all duration-300 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: `${i * 0.1}s` }}>
