@@ -48,10 +48,6 @@ export default function Footer() {
         </div>
         <div className="border-t border-gray-800 mt-14 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-xs text-gray-600">© {currentYear} {b.name}. สงวนลิขสิทธิ์ทุกประการ</p>
-          <div className="flex items-center gap-2">
-            {/* Admin link */}
-            <a href="#admin" className="px-3 py-1.5 text-xs text-gray-600 hover:text-primary-400 border border-gray-800 hover:border-gray-600 rounded-lg transition-colors" title="จัดการเว็บไซต์">⚙️ Admin</a>
-          </div>
         </div>
       </div>
     </footer>
