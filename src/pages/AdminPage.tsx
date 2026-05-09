@@ -10,6 +10,7 @@ const contactIconOptions = [
   { value: 'email', label: 'Email' },
   { value: 'instagram', label: 'Instagram' },
   { value: 'tiktok', label: 'TikTok' },
+  { value: 'telegram', label: 'Telegram' },
   { value: 'custom', label: 'อื่น ๆ' },
 ] as const
 

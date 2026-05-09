@@ -9,7 +9,7 @@ export interface ContactChannel {
   name: string
   value: string
   link: string
-  iconType: 'line' | 'facebook' | 'phone' | 'email' | 'instagram' | 'tiktok' | 'custom'
+  iconType: 'line' | 'facebook' | 'phone' | 'email' | 'instagram' | 'tiktok' | 'telegram' | 'custom'
 }
 
 export interface Product {
@@ -75,6 +75,7 @@ export const defaultContacts: ContactChannel[] = [
   { id: genId(), name: 'Facebook', value: 'JACOB Official', link: '#', iconType: 'facebook' },
   { id: genId(), name: 'เบอร์โทร', value: '02-XXX-XXXX', link: 'tel:02XXXXXXXX', iconType: 'phone' },
   { id: genId(), name: 'Email', value: 'support@jacob.th', link: 'mailto:support@jacob.th', iconType: 'email' },
+  { id: genId(), name: 'Telegram', value: '@jacobstore', link: 'https://t.me/jacobstore', iconType: 'telegram' },
 ]
 
 export const defaultProducts: Product[] = [
