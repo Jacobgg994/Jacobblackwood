@@ -30,8 +30,34 @@ export default function AdminPage({ onBack, onLogout }: { onBack: () => void; on
   const ctx = useSiteData()
   const [tab, setTab] = useState<Tab>('contacts')
   const [toast, setToast] = useState('')
+  const [deploying, setDeploying] = useState(false)
 
-  function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 2000) }
+  function showToast(msg: string) { setToast(msg); setTimeout(() => setToast(''), 3000) }
+
+  async function handleDeploy() {
+    if (deploying) return
+    const confirmed = window.confirm('ต้องการ Deploy ข้อมูลขึ้น Vercel หรือไม่?\n\nระบบจะบันทึกข้อมูลลงไฟล์ → commit → push ขึ้น GitHub\nVercel จะอัปเดตอัตโนมัติภายใน 1-2 นาที')
+    if (!confirmed) return
+
+    setDeploying(true)
+    try {
+      const res = await fetch('/api/deploy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ data: ctx.data }),
+      })
+      const result = await res.json()
+      if (result.ok) {
+        showToast(result.message || 'Deploy สำเร็จ!')
+      } else {
+        showToast('❌ ' + (result.error || 'Deploy ล้มเหลว'))
+      }
+    } catch (err: any) {
+      showToast('❌ ไม่สามารถเชื่อมต่อ API ได้ (ต้องรันใน localhost)')
+    } finally {
+      setDeploying(false)
+    }
+  }
 
   const tabs: { key: Tab; label: string; icon: string }[] = [
     { key: 'contacts', label: 'ช่องทางติดต่อ', icon: '📱' },
@@ -58,7 +84,7 @@ export default function AdminPage({ onBack, onLogout }: { onBack: () => void; on
           <div className="flex items-center gap-2">
             <button onClick={() => { ctx.resetAll(); showToast('รีเซ็ตข้อมูลเรียบร้อย') }}
               className="px-3 py-2 text-xs font-medium text-red-600 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition">
-              🔄 รีเซ็ตทั้งหมด
+              🔄 รีเซ็ต
             </button>
             {onLogout && (
               <button onClick={onLogout}
@@ -67,8 +93,16 @@ export default function AdminPage({ onBack, onLogout }: { onBack: () => void; on
               </button>
             )}
             <button onClick={onBack}
-              className="px-4 py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
+              className="px-3 py-2 text-xs font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition">
               👁️ ดูหน้าเว็บ
+            </button>
+            <button onClick={handleDeploy} disabled={deploying}
+              className="px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg hover:from-green-600 hover:to-emerald-700 shadow-md shadow-green-600/20 transition-all disabled:opacity-60 disabled:cursor-wait flex items-center gap-1.5">
+              {deploying ? (
+                <><svg className="w-3.5 h-3.5 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg> กำลัง Deploy...</>
+              ) : (
+                '🚀 Deploy'
+              )}
             </button>
           </div>
         </div>
