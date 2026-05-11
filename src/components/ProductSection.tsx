@@ -88,8 +88,8 @@ export default function ProductSection() {
                 {product.tags && product.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {product.tags.map((tag, idx) => {
-                      const isHot = tag === 'ขายดี' || tag === 'Best Seller';
-                      const isRec = tag === 'แนะนำ' || tag === 'Recommended';
+                      const isHot = tag.includes('ขายดี') || tag.toLowerCase().includes('best seller') || tag.toLowerCase().includes('hot');
+                      const isRec = tag.includes('แนะนำ') || tag.toLowerCase().includes('recommended') || tag.toLowerCase().includes('suggest');
                       let colorCls = 'bg-gray-100 text-gray-600 border-gray-200';
                       if (isHot) colorCls = 'bg-red-50 text-red-600 border-red-100';
                       else if (isRec) colorCls = 'bg-blue-50 text-blue-600 border-blue-100';

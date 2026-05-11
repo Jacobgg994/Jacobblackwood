@@ -212,7 +212,8 @@ export const defaultProducts: Product[] = [
     "highlight": "สร้างแอปพลิเคชัน automation ไม่ต้องเขียนโค้ด",
     "iconType": "gear",
     "image": "https://img1.pic.in.th/images/ChatGPT-Image-May-9-2026-06_09_21-PM.png",
-    "brand": "GemSoftware"
+    "brand": "GemSoftware",
+    "tags": ["แนะนำ"]
   },
   {
     "id": "id_1778317904277_8",
@@ -221,7 +222,8 @@ export const defaultProducts: Product[] = [
     "highlight": "จัดการบัญชีเฟสบุ๊ค",
     "iconType": "gear",
     "image": "https://img2.pic.in.th/block_minsoftware.png",
-    "brand": "MINSoftware"
+    "brand": "MINSoftware",
+    "tags": ["ขายดี"]
   },
   {
     "id": "id_1778317904277_9",
@@ -230,7 +232,8 @@ export const defaultProducts: Product[] = [
     "highlight": "จัดการบัญชีเฟสบุ๊ค",
     "iconType": "gear",
     "image": "https://img2.pic.in.th/block_minsoftware.png",
-    "brand": "MINSoftware"
+    "brand": "MINSoftware",
+    "tags": ["ยอดนิยม"]
   },
   {
     "id": "id_1778317904277_10",
@@ -239,7 +242,8 @@ export const defaultProducts: Product[] = [
     "highlight": "จัดการบัญชีเฟสบุ๊ค",
     "iconType": "gear",
     "image": "https://img2.pic.in.th/block_minsoftware.png",
-    "brand": "MINSoftware"
+    "brand": "MINSoftware",
+    "tags": ["แนะนำ"]
   },
   {
     "id": "id_1778317904277_11",
