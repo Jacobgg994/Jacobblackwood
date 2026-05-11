@@ -123,10 +123,8 @@ export default function AdminLogin({ onSuccess, onBack }: { onSuccess: () => voi
         <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-xl shadow-gray-200/50 border border-white/60 p-8 sm:p-10">
           {/* Logo */}
           <div className="text-center mb-8">
-            <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-colors ${isLocked ? 'bg-gradient-to-br from-red-500 to-red-600 shadow-red-600/20' : 'bg-gradient-to-br from-blue-600 to-blue-500 shadow-blue-600/20'}`}>
-              <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
+            <div className={`w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-4 shadow-lg transition-colors bg-white`}>
+              <img src="/logo.png" alt="Logo" className="w-16 h-16 object-contain" />
             </div>
             <h1 className="text-xl font-bold text-gray-800">เข้าสู่ระบบแอดมิน</h1>
             <p className="text-sm text-gray-400 mt-1">กรุณาใส่ข้อมูลเพื่อจัดการเว็บไซต์</p>

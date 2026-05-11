@@ -10,6 +10,9 @@ import {
   type FAQItem,
   type BrandInfo,
   type SectionLayout,
+  type HeroData,
+  type BenefitsData,
+  type ContactSectionData,
 } from '../data/defaultData.ts'
 
 const STORAGE_KEY = 'jacob_site_data'
@@ -26,7 +29,12 @@ interface SiteDataContextValue {
   /* brand */
   updateBrand: (brand: BrandInfo) => void
 
-  /* contacts */
+  /* hero & benefits */
+  updateHero: (hero: HeroData) => void
+  updateBenefits: (benefits: BenefitsData) => void
+
+  /* contacts & contact section */
+  updateContactSection: (contactSection: ContactSectionData) => void
   setContacts: (contacts: ContactChannel[]) => void
   addContact: (contact: ContactChannel) => void
   updateContact: (id: string, contact: Partial<ContactChannel>) => void
@@ -98,7 +106,12 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
   /* brand */
   const updateBrand = (brand: BrandInfo) => patch({ brand })
 
-  /* contacts */
+  /* hero & benefits */
+  const updateHero = (hero: HeroData) => patch({ hero })
+  const updateBenefits = (benefits: BenefitsData) => patch({ benefits })
+
+  /* contacts & contact section */
+  const updateContactSection = (contactSection: ContactSectionData) => patch({ contactSection })
   const setContacts = (contacts: ContactChannel[]) => patch({ contacts })
   const addContact = (contact: ContactChannel) => setData(p => ({ ...p, contacts: [...p.contacts, contact] }))
   const updateContact = (id: string, c: Partial<ContactChannel>) =>
@@ -152,7 +165,8 @@ export function SiteDataProvider({ children }: { children: ReactNode }) {
     <SiteDataContext.Provider value={{
       data,
       updateBrand,
-      setContacts, addContact, updateContact, removeContact,
+      updateHero, updateBenefits,
+      updateContactSection, setContacts, addContact, updateContact, removeContact,
       setProducts, addProduct, updateProduct, removeProduct,
       setPricing, addPricingPlan, updatePricingPlan, removePricingPlan,
       setReviews, addReview, updateReview, removeReview,

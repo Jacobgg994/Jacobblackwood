@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useSiteData } from '../context/SiteDataContext.tsx'
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const { data } = useSiteData()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -30,13 +32,9 @@ export default function Header() {
         <div className="flex items-center justify-between h-18 sm:h-20">
           {/* Logo */}
           <a href="#" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-600 to-primary-400 flex items-center justify-center shadow-md shadow-primary-600/20 group-hover:shadow-primary-600/40 transition-shadow">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
+            <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain drop-shadow-sm group-hover:scale-105 transition-transform" />
             <span className="text-xl font-bold tracking-tight">
-              <span className="gradient-text">JACOB</span>
+              <span className="gradient-text">{data.brand.name}</span>
             </span>
           </a>
 

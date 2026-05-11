@@ -19,10 +19,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
           <div>
-            <a href="#" className="flex items-center gap-2.5 mb-5">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-400 flex items-center justify-center">
-                <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.2}><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
-              </div>
+            <a href="#" className="flex items-center gap-2.5 mb-5 group">
+              <img src="/logo.png" alt="Logo" className="w-10 h-10 object-contain drop-shadow-sm group-hover:scale-105 transition-transform" />
               <span className="text-xl font-bold text-white">{b.name}</span>
             </a>
             <p className="text-sm leading-relaxed text-gray-500 max-w-xs">{b.description}</p>

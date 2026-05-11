@@ -30,6 +30,17 @@ export default function ContactSection() {
   const { ref, inView } = useInView(0.1)
   const { data } = useSiteData()
 
+  const cData = data.contactSection || {
+    badge: "ติดต่อเรา",
+    title1: "พร้อม",
+    highlight: "เริ่มต้น",
+    title2: "แล้วหรือยัง?",
+    description: "สนใจสินค้า ทักหาแอดมินเพื่อสอบถามรายละเอียดได้ทันที",
+    ctaTitle: "เริ่มต้นใช้งานวันนี้",
+    ctaDesc: "ไม่ว่าคุณจะมีคำถามอะไร ทีมงานพร้อมให้บริการคุณ ทักหาเราได้เลย ไม่ต้องรอ!",
+    ctaButton: "ติดต่อเราเลย"
+  }
+
   return (
     <section id="contact" className="py-20 sm:py-28 bg-white relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
@@ -37,9 +48,9 @@ export default function ContactSection() {
       </div>
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8" ref={ref}>
         <div className={`text-center max-w-2xl mx-auto mb-14 ${inView ? 'animate-fade-in-up' : 'opacity-0'}`}>
-          <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary-600 bg-primary-50 border border-primary-100 rounded-full mb-4">ติดต่อเรา</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">พร้อม<span className="gradient-text">เริ่มต้น</span>แล้วหรือยัง?</h2>
-          <p className="text-gray-500 text-lg">สนใจสินค้า ทักหาแอดมินเพื่อสอบถามรายละเอียดได้ทันที</p>
+          <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-primary-600 bg-primary-50 border border-primary-100 rounded-full mb-4">{cData.badge}</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 mb-4">{cData.title1}<span className="gradient-text">{cData.highlight}</span>{cData.title2}</h2>
+          <p className="text-gray-500 text-lg">{cData.description}</p>
         </div>
 
         <div className={`grid grid-cols-2 md:grid-cols-${Math.min(data.contacts.length, 4)} gap-4 sm:gap-6 mb-12 ${inView ? 'animate-fade-in-up delay-200' : 'opacity-0'}`}>
@@ -63,11 +74,11 @@ export default function ContactSection() {
             <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
             <div className="relative z-10">
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">เริ่มต้นใช้งานวันนี้</h3>
-              <p className="text-primary-100 text-sm sm:text-base max-w-lg mx-auto mb-8">ไม่ว่าคุณจะมีคำถามอะไร ทีมงานพร้อมให้บริการคุณ ทักหาเราได้เลย ไม่ต้องรอ!</p>
-              <a href="#" id="contact-cta" className="inline-flex items-center gap-2.5 px-8 py-4 text-base font-bold text-primary-600 bg-white rounded-2xl hover:bg-primary-50 shadow-xl shadow-black/10 hover:-translate-y-0.5 transition-all duration-200">
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white mb-4">{cData.ctaTitle}</h3>
+              <p className="text-primary-100 text-sm sm:text-base max-w-lg mx-auto mb-8">{cData.ctaDesc}</p>
+              <a href={cData.ctaButtonLink || "#"} id="contact-cta" className="inline-flex items-center gap-2.5 px-8 py-4 text-base font-bold text-primary-600 bg-white rounded-2xl hover:bg-primary-50 shadow-xl shadow-black/10 hover:-translate-y-0.5 transition-all duration-200">
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
-                ติดต่อเราเลย
+                {cData.ctaButton}
               </a>
             </div>
           </div>

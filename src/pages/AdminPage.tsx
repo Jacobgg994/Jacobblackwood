@@ -23,7 +23,7 @@ const productIconOptions = [
   { value: 'gear', label: '⚙️ ระบบ' },
 ] as const
 
-type Tab = 'layout' | 'brand' | 'products' | 'pricing' | 'reviews' | 'faqs' | 'contacts'
+type Tab = 'layout' | 'brand' | 'hero' | 'benefits' | 'products' | 'pricing' | 'reviews' | 'faqs' | 'contacts'
 
 /* ══════════════════════════════════════ */
 export default function AdminPage({ onBack, onLogout }: { onBack: () => void; onLogout?: () => void }) {
@@ -62,6 +62,8 @@ export default function AdminPage({ onBack, onLogout }: { onBack: () => void; on
   const tabs: { key: Tab; label: string; icon: string }[] = [
     { key: 'layout', label: 'โครงสร้างเว็บ', icon: '🧩' },
     { key: 'brand', label: 'แบรนด์', icon: '🏷️' },
+    { key: 'hero', label: 'ส่วนหัว', icon: '🎯' },
+    { key: 'benefits', label: 'ข้อดี', icon: '✨' },
     { key: 'contacts', label: 'ช่องทางติดต่อ', icon: '📱' },
     { key: 'products', label: 'สินค้า', icon: '📦' },
     { key: 'pricing', label: 'แพ็กเกจราคา', icon: '💰' },
@@ -133,6 +135,8 @@ export default function AdminPage({ onBack, onLogout }: { onBack: () => void; on
         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6">
           {tab === 'layout' && <LayoutTab ctx={ctx} showToast={showToast} />}
           {tab === 'brand' && <BrandTab ctx={ctx} showToast={showToast} />}
+          {tab === 'hero' && <HeroTab ctx={ctx} />}
+          {tab === 'benefits' && <BenefitsTab ctx={ctx} />}
           {tab === 'contacts' && <ContactsTab ctx={ctx} showToast={showToast} />}
           {tab === 'products' && <ProductsTab ctx={ctx} showToast={showToast} />}
           {tab === 'pricing' && <PricingTab ctx={ctx} showToast={showToast} />}
@@ -217,16 +221,71 @@ function LayoutTab({ ctx }: { ctx: ReturnType<typeof useSiteData>; showToast: (m
 
 /* ═══════ Contacts ═══════ */
 function ContactsTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; showToast: (m: string) => void }) {
-  const { data, updateContact, removeContact, addContact } = ctx
+  const { data, updateContact, removeContact, addContact, setContacts, updateContactSection } = ctx
+
+  function moveUp(index: number) {
+    if (index === 0) return
+    const newContacts = [...data.contacts]
+    const temp = newContacts[index - 1]
+    newContacts[index - 1] = newContacts[index]
+    newContacts[index] = temp
+    setContacts(newContacts)
+  }
+
+  function moveDown(index: number) {
+    if (index === data.contacts.length - 1) return
+    const newContacts = [...data.contacts]
+    const temp = newContacts[index + 1]
+    newContacts[index + 1] = newContacts[index]
+    newContacts[index] = temp
+    setContacts(newContacts)
+  }
 
   function handleAdd() {
     addContact({ id: genId(), name: 'ช่องทางใหม่', value: '', link: '#', iconType: 'custom' })
     showToast('เพิ่มช่องทางติดต่อแล้ว')
   }
 
+  const defaultContactSection = {
+    badge: "ติดต่อเรา",
+    title1: "พร้อม",
+    highlight: "เริ่มต้น",
+    title2: "แล้วหรือยัง?",
+    description: "สนใจสินค้า ทักหาแอดมินเพื่อสอบถามรายละเอียดได้ทันที",
+    ctaTitle: "เริ่มต้นใช้งานวันนี้",
+    ctaDesc: "ไม่ว่าคุณจะมีคำถามอะไร ทีมงานพร้อมให้บริการคุณ ทักหาเราได้เลย ไม่ต้องรอ!",
+    ctaButton: "ติดต่อเราเลย"
+  }
+  const cData = data.contactSection || defaultContactSection;
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
+      <div className="space-y-4 max-w-2xl mb-8">
+        <h3 className="text-sm font-bold text-gray-800 mb-2">ข้อมูลส่วนหัว (Contact Header)</h3>
+        <div>
+          <label className={labelCls}>ป้ายกำกับ (Badge)</label>
+          <input value={cData.badge} onChange={e => updateContactSection({ ...cData, badge: e.target.value })} className={inputCls} />
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          <div><label className={labelCls}>หัวข้อบรรทัด 1</label><input value={cData.title1} onChange={e => updateContactSection({ ...cData, title1: e.target.value })} className={inputCls} /></div>
+          <div><label className={labelCls}>เน้นคำ (Highlight)</label><input value={cData.highlight} onChange={e => updateContactSection({ ...cData, highlight: e.target.value })} className={inputCls} /></div>
+          <div><label className={labelCls}>หัวข้อบรรทัด 2</label><input value={cData.title2} onChange={e => updateContactSection({ ...cData, title2: e.target.value })} className={inputCls} /></div>
+        </div>
+        <div>
+          <label className={labelCls}>คำอธิบาย</label>
+          <input value={cData.description} onChange={e => updateContactSection({ ...cData, description: e.target.value })} className={inputCls} />
+        </div>
+
+        <h3 className="text-sm font-bold text-gray-800 mt-6 mb-2">กล่องข้อความ CTA (เริ่มต้นใช้งานวันนี้)</h3>
+        <div><label className={labelCls}>หัวข้อหลัก</label><input value={cData.ctaTitle} onChange={e => updateContactSection({ ...cData, ctaTitle: e.target.value })} className={inputCls} /></div>
+        <div><label className={labelCls}>คำอธิบาย</label><textarea value={cData.ctaDesc} onChange={e => updateContactSection({ ...cData, ctaDesc: e.target.value })} className={inputCls + ' min-h-[60px]'} /></div>
+        <div className="grid grid-cols-2 gap-4">
+          <div><label className={labelCls}>ข้อความปุ่มกด</label><input value={cData.ctaButton} onChange={e => updateContactSection({ ...cData, ctaButton: e.target.value })} className={inputCls} placeholder="ติดต่อเราเลย" /></div>
+          <div><label className={labelCls}>ลิงก์ (URL)</label><input value={cData.ctaButtonLink || ''} onChange={e => updateContactSection({ ...cData, ctaButtonLink: e.target.value })} className={inputCls} placeholder="เช่น https://line.me/ti/p/..." /></div>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between mb-4 border-t border-gray-100 pt-6">
         <h2 className="text-base font-bold text-gray-800">📱 ช่องทางติดต่อ ({data.contacts.length})</h2>
         <button onClick={handleAdd} className={addBtnCls}>+ เพิ่มช่องทาง</button>
       </div>
@@ -255,11 +314,22 @@ function ContactsTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; 
                   <input value={c.link} onChange={e => updateContact(c.id, { link: e.target.value })} className={inputCls} placeholder="https://..." />
                 </div>
               </div>
-              <button onClick={() => { removeContact(c.id); showToast('ลบเรียบร้อย') }} className={delBtnCls} title="ลบ">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
+              <div className="flex flex-col gap-2">
+                {/* Order Controls */}
+                <div className="flex items-center gap-1 bg-white rounded-lg p-1 shadow-sm border border-gray-200">
+                  <button onClick={() => moveUp(i)} disabled={i === 0} className={`p-1 rounded ${i === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-gray-100 text-gray-600'}`} title="ย้ายขึ้น">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
+                  </button>
+                  <button onClick={() => moveDown(i)} disabled={i === data.contacts.length - 1} className={`p-1 rounded ${i === data.contacts.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-gray-100 text-gray-600'}`} title="ย้ายลง">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </button>
+                </div>
+                <button onClick={() => { removeContact(c.id); showToast('ลบเรียบร้อย') }} className={delBtnCls} title="ลบ">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         ))}
@@ -455,9 +525,190 @@ function BrandTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; sho
   )
 }
 
+/* ═══════ Hero ═══════ */
+function HeroTab({ ctx }: { ctx: ReturnType<typeof useSiteData> }) {
+  const { data, updateHero } = ctx
+  const h = data.hero
+
+  const defaultIndicators = [
+    { id: "t1", text: "ลูกค้า 10,000+" },
+    { id: "t2", text: "ตอบแชท 24 ชม." },
+    { id: "t3", text: "รับประกันคุณภาพ" }
+  ]
+  const currentIndicators = h.trustIndicators || defaultIndicators
+
+  function updateTrustIndicator(index: number, text: string) {
+    const newIndicators = [...currentIndicators]
+    newIndicators[index] = { ...newIndicators[index], text }
+    updateHero({ ...h, trustIndicators: newIndicators })
+  }
+
+  return (
+    <div>
+      <h2 className="text-base font-bold text-gray-800 mb-4">🎯 ส่วนหัว (Hero)</h2>
+      <div className="space-y-4 max-w-2xl mb-8">
+        <div>
+          <label className={labelCls}>ป้ายกำกับ (Badge)</label>
+          <input value={h.badge} onChange={e => { updateHero({ ...h, badge: e.target.value }) }} className={inputCls} />
+        </div>
+        <div>
+          <label className={labelCls}>หัวข้อบรรทัด 1</label>
+          <input value={h.titleLine1} onChange={e => updateHero({ ...h, titleLine1: e.target.value })} className={inputCls} />
+        </div>
+        <div>
+          <label className={labelCls}>หัวข้อบรรทัด 2 (เน้นสี)</label>
+          <input value={h.titleLine2} onChange={e => updateHero({ ...h, titleLine2: e.target.value })} className={inputCls} />
+        </div>
+        <div>
+          <label className={labelCls}>หัวข้อบรรทัด 3</label>
+          <input value={h.titleLine3} onChange={e => updateHero({ ...h, titleLine3: e.target.value })} className={inputCls} />
+        </div>
+        <div>
+          <label className={labelCls}>คำอธิบาย</label>
+          <textarea value={h.description} onChange={e => updateHero({ ...h, description: e.target.value })} className={inputCls + ' min-h-[80px]'} />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <label className={labelCls}>ปุ่มหลัก (Primary CTA)</label>
+            <input value={h.ctaPrimary} onChange={e => updateHero({ ...h, ctaPrimary: e.target.value })} className={inputCls} placeholder="ข้อความบนปุ่ม" />
+            <input value={h.ctaPrimaryLink || ''} onChange={e => updateHero({ ...h, ctaPrimaryLink: e.target.value })} className={inputCls} placeholder="ลิงก์ เช่น #pricing หรือ https://..." />
+          </div>
+          <div className="space-y-2">
+            <label className={labelCls}>ปุ่มรอง (Secondary CTA)</label>
+            <input value={h.ctaSecondary} onChange={e => updateHero({ ...h, ctaSecondary: e.target.value })} className={inputCls} placeholder="ข้อความบนปุ่ม" />
+            <input value={h.ctaSecondaryLink || ''} onChange={e => updateHero({ ...h, ctaSecondaryLink: e.target.value })} className={inputCls} placeholder="ลิงก์ เช่น #contact หรือ https://..." />
+          </div>
+        </div>
+      </div>
+
+      <h3 className="text-sm font-bold text-gray-800 mb-3">จุดเด่น / สร้างความเชื่อมั่น (Trust Indicators)</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {currentIndicators.map((indicator, i) => (
+          <div key={indicator.id} className={cardCls}>
+            <label className={labelCls}>ข้อความที่ {i + 1}</label>
+            <input value={indicator.text} onChange={e => updateTrustIndicator(i, e.target.value)} className={inputCls} />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ═══════ Benefits ═══════ */
+function BenefitsTab({ ctx }: { ctx: ReturnType<typeof useSiteData> }) {
+  const { data, updateBenefits } = ctx
+  const b = data.benefits
+
+  const defaultStats = [
+    { id: "s1", value: "10,000+", label: "ลูกค้าทั่วประเทศ" },
+    { id: "s2", value: "99.9%", label: "ระบบออนไลน์ตลอด" },
+    { id: "s3", value: "24/7", label: "ทีมซัพพอร์ต" },
+    { id: "s4", value: "4.9/5", label: "คะแนนความพึงพอใจ" }
+  ]
+  const currentStats = b.stats || defaultStats
+
+  function updateItem(index: number, update: Partial<typeof b.items[0]>) {
+    const items = [...b.items]
+    items[index] = { ...items[index], ...update }
+    updateBenefits({ ...b, items })
+  }
+
+  function updateStat(index: number, update: Partial<typeof currentStats[0]>) {
+    const newStats = [...currentStats]
+    newStats[index] = { ...newStats[index], ...update }
+    updateBenefits({ ...b, stats: newStats })
+  }
+
+  return (
+    <div>
+      <h2 className="text-base font-bold text-gray-800 mb-4">✨ ข้อดีของเรา (Benefits)</h2>
+      
+      <div className="space-y-4 max-w-2xl mb-8">
+        <div>
+          <label className={labelCls}>ป้ายกำกับ (Badge)</label>
+          <input value={b.badge} onChange={e => updateBenefits({ ...b, badge: e.target.value })} className={inputCls} />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className={labelCls}>หัวข้อหลัก</label>
+            <input value={b.title} onChange={e => updateBenefits({ ...b, title: e.target.value })} className={inputCls} />
+          </div>
+          <div>
+            <label className={labelCls}>คำเน้น (Highlight)</label>
+            <input value={b.highlight} onChange={e => updateBenefits({ ...b, highlight: e.target.value })} className={inputCls} />
+          </div>
+        </div>
+        <div>
+          <label className={labelCls}>คำอธิบาย</label>
+          <textarea value={b.description} onChange={e => updateBenefits({ ...b, description: e.target.value })} className={inputCls + ' min-h-[60px]'} />
+        </div>
+      </div>
+
+      <h3 className="text-sm font-bold text-gray-800 mb-3">รายการข้อดี</h3>
+      <div className="grid sm:grid-cols-2 gap-4">
+        {b.items.map((item, i) => (
+          <div key={item.id} className={cardCls}>
+            <div className="mb-2">
+              <label className={labelCls}>หัวข้อ</label>
+              <input value={item.title} onChange={e => updateItem(i, { title: e.target.value })} className={inputCls} />
+            </div>
+            <div className="mb-2">
+              <label className={labelCls}>รายละเอียด</label>
+              <textarea value={item.desc} onChange={e => updateItem(i, { desc: e.target.value })} className={inputCls + ' min-h-[60px]'} />
+            </div>
+            <div>
+              <label className={labelCls}>สีไอคอน</label>
+              <select value={item.iconType} onChange={e => updateItem(i, { iconType: e.target.value as any })} className={inputCls}>
+                <option value="blue">Blue</option>
+                <option value="emerald">Emerald</option>
+                <option value="violet">Violet</option>
+                <option value="amber">Amber</option>
+              </select>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <h3 className="text-sm font-bold text-gray-800 mb-3 mt-8">สถิติ (Stats)</h3>
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {currentStats.map((stat, i) => (
+          <div key={stat.id} className={cardCls}>
+            <div className="mb-2">
+              <label className={labelCls}>ตัวเลข / สถิติ</label>
+              <input value={stat.value} onChange={e => updateStat(i, { value: e.target.value })} className={inputCls} />
+            </div>
+            <div>
+              <label className={labelCls}>คำอธิบาย</label>
+              <input value={stat.label} onChange={e => updateStat(i, { label: e.target.value })} className={inputCls} />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 /* ═══════ Pricing ═══════ */
 function PricingTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; showToast: (m: string) => void }) {
-  const { data, updatePricingPlan, addPricingPlan, removePricingPlan } = ctx
+  const { data, updatePricingPlan, addPricingPlan, removePricingPlan, setPricing } = ctx
+
+  function moveUp(index: number) {
+    if (index === 0) return
+    const newPricing = [...data.pricing]
+    const temp = newPricing[index - 1]
+    newPricing[index - 1] = newPricing[index]
+    newPricing[index] = temp
+    setPricing(newPricing)
+  }
+
+  function moveDown(index: number) {
+    if (index === data.pricing.length - 1) return
+    const newPricing = [...data.pricing]
+    const temp = newPricing[index + 1]
+    newPricing[index + 1] = newPricing[index]
+    newPricing[index] = temp
+    setPricing(newPricing)
+  }
 
   function handleAdd() {
     addPricingPlan({
@@ -520,15 +771,27 @@ function PricingTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; s
                 <span className="text-sm font-bold text-gray-800">{plan.name}</span>
                 {plan.featured && <span className="px-2 py-0.5 text-[10px] font-bold text-blue-600 bg-blue-100 rounded-full">⭐ แนะนำ</span>}
               </div>
-              <button onClick={() => toggleFeatured(plan.id, plan.featured)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${plan.featured ? 'text-blue-600 bg-blue-100 hover:bg-blue-200' : 'text-gray-500 bg-gray-100 hover:bg-gray-200'}`}>
-                {plan.featured ? '✓ แนะนำอยู่' : 'ตั้งเป็นแนะนำ'}
-              </button>
-              <button onClick={() => { removePricingPlan(plan.id); showToast('ลบแพ็กเกจเรียบร้อย') }} className={delBtnCls} title="ลบ">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Order Controls */}
+                <div className="flex items-center gap-1 bg-white rounded-lg p-1 shadow-sm border border-gray-200">
+                  <button onClick={() => moveUp(i)} disabled={i === 0} className={`p-1 rounded ${i === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-gray-100 text-gray-600'}`} title="ย้ายขึ้น">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" /></svg>
+                  </button>
+                  <button onClick={() => moveDown(i)} disabled={i === data.pricing.length - 1} className={`p-1 rounded ${i === data.pricing.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-gray-100 text-gray-600'}`} title="ย้ายลง">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                  </button>
+                </div>
+
+                <button onClick={() => toggleFeatured(plan.id, plan.featured)}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${plan.featured ? 'text-blue-600 bg-blue-100 hover:bg-blue-200' : 'text-gray-500 bg-gray-100 hover:bg-gray-200'}`}>
+                  {plan.featured ? '✓ แนะนำอยู่' : 'ตั้งเป็นแนะนำ'}
+                </button>
+                <button onClick={() => { removePricingPlan(plan.id); showToast('ลบแพ็กเกจเรียบร้อย') }} className={delBtnCls} title="ลบ">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
@@ -552,9 +815,13 @@ function PricingTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; s
                 <label className={labelCls}>คำอธิบาย</label>
                 <input value={plan.desc} onChange={e => updatePricingPlan(plan.id, { desc: e.target.value })} className={inputCls} />
               </div>
-              <div className="sm:col-span-2">
+              <div className="sm:col-span-1">
                 <label className={labelCls}>ข้อความปุ่ม CTA</label>
                 <input value={plan.cta} onChange={e => updatePricingPlan(plan.id, { cta: e.target.value })} className={inputCls} />
+              </div>
+              <div className="sm:col-span-1">
+                <label className={labelCls}>ลิงก์ปุ่ม CTA</label>
+                <input value={plan.ctaLink || ''} onChange={e => updatePricingPlan(plan.id, { ctaLink: e.target.value })} className={inputCls} placeholder="เช่น #contact" />
               </div>
             </div>
 

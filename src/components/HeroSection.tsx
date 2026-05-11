@@ -1,4 +1,9 @@
+import { useSiteData } from '../context/SiteDataContext.tsx'
+
 export default function HeroSection() {
+  const { data } = useSiteData()
+  const hero = data.hero
+
   return (
     <section id="hero" className="relative pt-28 pb-16 sm:pt-36 sm:pb-24 overflow-hidden">
       {/* Background decorations */}
@@ -19,66 +24,59 @@ export default function HeroSection() {
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary-50 border border-primary-100 rounded-full text-primary-700 text-sm font-medium mb-6">
               <span className="w-2 h-2 bg-primary-500 rounded-full animate-pulse" />
-              บริการดิจิทัลคุณภาพสูง
+              {hero.badge}
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-[3.4rem] font-extrabold leading-tight tracking-tight text-gray-900 mb-6">
-              สินค้าคุณภาพ
+              {hero.titleLine1}
               <br />
-              <span className="gradient-text">พร้อมบริการ</span>
+              <span className="gradient-text">{hero.titleLine2}</span>
               <br />
-              ที่เชื่อถือได้
+              {hero.titleLine3}
             </h1>
 
             <p className="text-lg sm:text-xl text-gray-500 leading-relaxed max-w-xl mb-8">
-              เรามุ่งมั่นพัฒนาสินค้าและบริการดิจิทัลที่ตอบโจทย์ทุกความต้องการ
-              ด้วยคุณภาพระดับพรีเมียม ราคาที่คุ้มค่า และทีมงานที่พร้อมดูแลคุณ
+              {hero.description}
             </p>
 
             {/* CTA buttons */}
             <div className="flex flex-wrap gap-4">
               <a
-                href="#contact"
+                href={hero.ctaPrimaryLink || "#contact"}
                 id="hero-cta-primary"
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 text-base font-semibold text-white bg-primary-600 rounded-2xl hover:bg-primary-700 shadow-lg shadow-primary-600/25 hover:shadow-xl hover:shadow-primary-600/30 transition-all duration-200 hover:-translate-y-0.5 animate-pulse-glow"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
                 </svg>
-                สั่งซื้อเลย
+                {hero.ctaPrimary}
               </a>
               <a
-                href="#pricing"
+                href={hero.ctaSecondaryLink || "#pricing"}
                 id="hero-cta-secondary"
                 className="inline-flex items-center gap-2.5 px-7 py-3.5 text-base font-semibold text-primary-600 bg-primary-50 border border-primary-200 rounded-2xl hover:bg-primary-100 hover:border-primary-300 transition-all duration-200 hover:-translate-y-0.5"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                 </svg>
-                ดูราคา
+                {hero.ctaSecondary}
               </a>
             </div>
 
             {/* Trust indicators */}
             <div className="flex flex-wrap items-center gap-6 mt-10 text-sm text-gray-400">
-              <div className="flex items-center gap-2">
-                <svg className="w-4.5 h-4.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>ลูกค้า 10,000+</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4.5 h-4.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>ตอบแชท 24 ชม.</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <svg className="w-4.5 h-4.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                </svg>
-                <span>รับประกันคุณภาพ</span>
-              </div>
+              {(hero.trustIndicators || [
+                { id: "t1", text: "ลูกค้า 10,000+" },
+                { id: "t2", text: "ตอบแชท 24 ชม." },
+                { id: "t3", text: "รับประกันคุณภาพ" }
+              ]).map(indicator => (
+                <div key={indicator.id} className="flex items-center gap-2">
+                  <svg className="w-4.5 h-4.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                  <span>{indicator.text}</span>
+                </div>
+              ))}
             </div>
           </div>
 

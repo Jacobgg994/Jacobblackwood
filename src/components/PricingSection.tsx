@@ -53,7 +53,7 @@ export default function PricingSection() {
                     </li>
                   ))}
                 </ul>
-                <a href="#contact" className={`block text-center py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
+                <a href={plan.ctaLink || "#contact"} className={`block text-center py-3.5 rounded-xl font-semibold text-sm transition-all duration-200 ${
                   plan.featured ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg shadow-primary-600/25 hover:shadow-xl hover:-translate-y-0.5' : 'bg-primary-50 text-primary-600 hover:bg-primary-100 border border-primary-200'
                 }`}>{plan.cta}</a>
               </div>
