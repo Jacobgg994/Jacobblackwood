@@ -137,7 +137,7 @@ export interface SiteData {
   DATA_VERSION changes every time the admin deploys new data.
   If the version in localStorage doesn't match, we discard the old cache.
 */
-export const DATA_VERSION = '1778473059998'
+export const DATA_VERSION = '1778473696316'
 
 /* ---------- helpers ---------- */
 let _counter = 0
@@ -212,8 +212,7 @@ export const defaultProducts: Product[] = [
     "highlight": "สร้างแอปพลิเคชัน automation ไม่ต้องเขียนโค้ด",
     "iconType": "gear",
     "image": "https://img1.pic.in.th/images/ChatGPT-Image-May-9-2026-06_09_21-PM.png",
-    "brand": "GemSoftware",
-    "tags": ["แนะนำ"]
+    "brand": "GemSoftware"
   },
   {
     "id": "id_1778317904277_8",
@@ -222,8 +221,7 @@ export const defaultProducts: Product[] = [
     "highlight": "จัดการบัญชีเฟสบุ๊ค",
     "iconType": "gear",
     "image": "https://img2.pic.in.th/block_minsoftware.png",
-    "brand": "MINSoftware",
-    "tags": ["ขายดี"]
+    "brand": "MINSoftware"
   },
   {
     "id": "id_1778317904277_9",
@@ -232,24 +230,13 @@ export const defaultProducts: Product[] = [
     "highlight": "จัดการบัญชีเฟสบุ๊ค",
     "iconType": "gear",
     "image": "https://img2.pic.in.th/block_minsoftware.png",
-    "brand": "MINSoftware",
-    "tags": ["ยอดนิยม"]
+    "brand": "MINSoftware"
   },
   {
     "id": "id_1778317904277_10",
     "name": "MaxPhoneFarm ",
     "desc": "โปรแกรมฟาร์มเฟสบุ๊ค แบบมือถื",
     "highlight": "จัดการบัญชีเฟสบุ๊ค",
-    "iconType": "gear",
-    "image": "https://img2.pic.in.th/block_minsoftware.png",
-    "brand": "MINSoftware",
-    "tags": ["แนะนำ"]
-  },
-  {
-    "id": "id_1778317904277_11",
-    "name": "ระบบ Automation",
-    "desc": "ทำงานซ้ำ ๆ อัตโนมัติ ลดภาระ เพิ่มประสิทธิภาพทีมงาน",
-    "highlight": "ประหยัดเวลา 80%",
     "iconType": "gear",
     "image": "https://img2.pic.in.th/block_minsoftware.png",
     "brand": "MINSoftware"
