@@ -82,7 +82,8 @@ function loadFromStorage(): SiteData {
         localStorage.removeItem(STORAGE_KEY)
         return defaultSiteData
       }
-      return stored
+      // Merge with defaultSiteData to ensure no missing properties
+      return { ...defaultSiteData, ...stored }
     }
   } catch { /* ignore */ }
   return defaultSiteData

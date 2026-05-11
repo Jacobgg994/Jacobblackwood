@@ -519,7 +519,16 @@ export const defaultBenefits: BenefitsData = {
   ]
 }
 
-export const defaultContactSection: ContactSectionData = undefined
+export const defaultContactSection: ContactSectionData = {
+  badge: "ติดต่อเรา",
+  title1: "พร้อม",
+  highlight: "เริ่มต้น",
+  title2: "แล้วหรือยัง?",
+  description: "สนใจสินค้า ทักหาแอดมินเพื่อสอบถามรายละเอียดได้ทันที",
+  ctaTitle: "เริ่มต้นใช้งานวันนี้",
+  ctaDesc: "ไม่ว่าคุณจะมีคำถามอะไร ทีมงานพร้อมให้บริการคุณ ทักหาเราได้เลย ไม่ต้องรอ!",
+  ctaButton: "ติดต่อเราเลย"
+}
 
 export const defaultSiteData: SiteData = {
   version: DATA_VERSION,
