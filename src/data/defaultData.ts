@@ -137,7 +137,7 @@ export interface SiteData {
   DATA_VERSION changes every time the admin deploys new data.
   If the version in localStorage doesn't match, we discard the old cache.
 */
-export const DATA_VERSION = '1778470827173'
+export const DATA_VERSION = '1778473025095'
 
 /* ---------- helpers ---------- */
 let _counter = 0
@@ -521,14 +521,14 @@ export const defaultBenefits: BenefitsData = {
 }
 
 export const defaultContactSection: ContactSectionData = {
-  badge: "ติดต่อเรา",
-  title1: "พร้อม",
-  highlight: "เริ่มต้น",
-  title2: "แล้วหรือยัง?",
-  description: "สนใจสินค้า ทักหาแอดมินเพื่อสอบถามรายละเอียดได้ทันที",
-  ctaTitle: "เริ่มต้นใช้งานวันนี้",
-  ctaDesc: "ไม่ว่าคุณจะมีคำถามอะไร ทีมงานพร้อมให้บริการคุณ ทักหาเราได้เลย ไม่ต้องรอ!",
-  ctaButton: "ติดต่อเราเลย"
+  "badge": "ติดต่อเรา",
+  "title1": "พร้อม",
+  "highlight": "เริ่มต้น",
+  "title2": "แล้วหรือยัง?",
+  "description": "สนใจสินค้า ทักหาแอดมินเพื่อสอบถามรายละเอียดได้ทันที",
+  "ctaTitle": "เริ่มต้นใช้งานวันนี้",
+  "ctaDesc": "ไม่ว่าคุณจะมีคำถามอะไร ทีมงานพร้อมให้บริการคุณ ทักหาเราได้เลย ไม่ต้องรอ!",
+  "ctaButton": "ติดต่อเราเลย"
 }
 
 export const defaultSiteData: SiteData = {
