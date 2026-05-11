@@ -137,7 +137,7 @@ export interface SiteData {
   DATA_VERSION changes every time the admin deploys new data.
   If the version in localStorage doesn't match, we discard the old cache.
 */
-export const DATA_VERSION = '1778473696316'
+export const DATA_VERSION = '1778474026699'
 
 /* ---------- helpers ---------- */
 let _counter = 0
@@ -218,16 +218,19 @@ export const defaultProducts: Product[] = [
     "id": "id_1778317904277_8",
     "name": "Maxcare",
     "desc": "โปรแกรมฟาร์มเฟสบุ๊ค",
-    "highlight": "จัดการบัญชีเฟสบุ๊ค",
+    "highlight": "จัดการบัญชีเฟสบุ๊ค อัตโนมัติ",
     "iconType": "gear",
     "image": "https://img2.pic.in.th/block_minsoftware.png",
-    "brand": "MINSoftware"
+    "brand": "MINSoftware",
+    "tags": [
+      "สินค้าขายดี"
+    ]
   },
   {
     "id": "id_1778317904277_9",
     "name": "MaxSystemcare",
     "desc": "โปรแกรมฟาร์มเฟสบุ๊ค แบบมือถือจำลอง",
-    "highlight": "จัดการบัญชีเฟสบุ๊ค",
+    "highlight": "จัดการบัญชีเฟสบุ๊ค อัตโนมัติ",
     "iconType": "gear",
     "image": "https://img2.pic.in.th/block_minsoftware.png",
     "brand": "MINSoftware"
@@ -235,11 +238,65 @@ export const defaultProducts: Product[] = [
   {
     "id": "id_1778317904277_10",
     "name": "MaxPhoneFarm ",
-    "desc": "โปรแกรมฟาร์มเฟสบุ๊ค แบบมือถื",
-    "highlight": "จัดการบัญชีเฟสบุ๊ค",
+    "desc": "โปรแกรมฟาร์มเฟสบุ๊ค แบบมือถือ",
+    "highlight": "จัดการบัญชีเฟสบุ๊ค อัตโนมัติ",
     "iconType": "gear",
     "image": "https://img2.pic.in.th/block_minsoftware.png",
     "brand": "MINSoftware"
+  },
+  {
+    "id": "id_1778473800813_1",
+    "name": "MaxTwitter",
+    "desc": "โปรแกรมฟาร์ม Twitter สำหรับจัดการหลายบัญชีอัตโนมัติ",
+    "highlight": "จัดการบัญชี Twitter อัตโนมัติ",
+    "iconType": "gear",
+    "brand": "MINSoftware",
+    "image": "https://img2.pic.in.th/block_minsoftware.png"
+  },
+  {
+    "id": "id_1778473801180_2",
+    "name": "Maxreup",
+    "desc": "โปรแกรมโพสต์คลิป Reels อัตโนมัติ รองรับหลายบัญชี",
+    "highlight": "โพสต์ Reels อัตโนมัติ",
+    "iconType": "gear",
+    "brand": "MINSoftware",
+    "image": "https://img2.pic.in.th/block_minsoftware.png"
+  },
+  {
+    "id": "id_1778473801565_3",
+    "name": "MaxPage",
+    "desc": "โปรแกรมฟาร์มเพจ Facebook สำหรับงานการตลาดออนไลน์",
+    "highlight": "จัดการเพจ Facebook หลายบัญชี",
+    "iconType": "gear",
+    "brand": "MINSoftware",
+    "image": "https://img2.pic.in.th/block_minsoftware.png"
+  },
+  {
+    "id": "id_1778473801957_4",
+    "name": "CloudPhoneTiktok",
+    "desc": "ระบบฟาร์ม TikTok แบบมือถือบน Cloud Phone",
+    "highlight": "ฟาร์ม TikTok บนระบบมือถือ",
+    "iconType": "gear",
+    "brand": "MINSoftware",
+    "image": "https://img2.pic.in.th/block_minsoftware.png"
+  },
+  {
+    "id": "id_1778473802285_5",
+    "name": "MaxInstagramPhone",
+    "desc": "โปรแกรมฟาร์ม Instagram แบบมือถือ ใช้งานอัตโนมัติ",
+    "highlight": "ฟาร์ม Instagram แบบมือถือ",
+    "iconType": "gear",
+    "brand": "MINSoftware",
+    "image": "https://img2.pic.in.th/block_minsoftware.png"
+  },
+  {
+    "id": "id_1778473802589_6",
+    "name": "MaxInsta Chrome",
+    "desc": "โปรแกรมฟาร์ม Instagram ผ่าน Chrome รองรับหลายบัญชี",
+    "highlight": "จัดการ Instagram ผ่าน Chrome",
+    "iconType": "gear",
+    "brand": "MINSoftware",
+    "image": "https://img2.pic.in.th/block_minsoftware.png"
   }
 ]
 
