@@ -137,7 +137,7 @@ export interface SiteData {
   DATA_VERSION changes every time the admin deploys new data.
   If the version in localStorage doesn't match, we discard the old cache.
 */
-export const DATA_VERSION = '1778473025095'
+export const DATA_VERSION = '1778473059998'
 
 /* ---------- helpers ---------- */
 let _counter = 0
@@ -200,7 +200,10 @@ export const defaultProducts: Product[] = [
     "highlight": "anti-detection ที่ทรงพลัง",
     "iconType": "gear",
     "image": "https://img1.pic.in.th/images/ChatGPT-Image-May-9-2026-06_09_21-PM.png",
-    "brand": "GemSoftware"
+    "brand": "GemSoftware",
+    "tags": [
+      "สินค้าขายดี"
+    ]
   },
   {
     "id": "id_1778317904277_7",
