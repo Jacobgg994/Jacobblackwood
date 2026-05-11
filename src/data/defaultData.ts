@@ -32,6 +32,7 @@ export interface PricingPlan {
   features: { text: string; included: boolean }[]
   featured: boolean
   cta: string
+  ctaLink?: string
 }
 
 export interface Review {
@@ -57,6 +58,46 @@ export interface BrandInfo {
 
 export type SectionType = 'hero' | 'products' | 'benefits' | 'pricing' | 'reviews' | 'faq' | 'contact'
 
+export interface TrustIndicator {
+  id: string
+  text: string
+}
+
+export interface HeroData {
+  badge: string
+  titleLine1: string
+  titleLine2: string
+  titleLine3: string
+  description: string
+  ctaPrimary: string
+  ctaPrimaryLink?: string
+  ctaSecondary: string
+  ctaSecondaryLink?: string
+  trustIndicators: TrustIndicator[]
+}
+
+export interface BenefitItem {
+  id: string
+  title: string
+  desc: string
+  iconType: 'blue' | 'emerald' | 'violet' | 'amber'
+}
+
+export interface StatItem {
+  id: string
+  value: string
+  label: string
+}
+
+export interface BenefitsData {
+  badge: string
+  title: string
+  highlight: string
+  description: string
+  items: BenefitItem[]
+  stats: StatItem[]
+}
+
 export interface SectionLayout {
   id: string
   type: SectionType
@@ -64,11 +105,27 @@ export interface SectionLayout {
   visible: boolean
 }
 
+export interface ContactSectionData {
+  badge: string;
+  title1: string;
+  highlight: string;
+  title2: string;
+  description: string;
+  ctaTitle: string;
+  ctaDesc: string;
+  ctaButton: string;
+  ctaButtonLink?: string;
+}
+
 export interface SiteData {
   version: string
   layout: SectionLayout[]
   brand: BrandInfo
+  hero: HeroData
+  benefits: BenefitsData
   contacts: ContactChannel[]
+  contactSection: ContactSectionData
+
   products: Product[]
   pricing: PricingPlan[]
   reviews: Review[]
@@ -79,7 +136,7 @@ export interface SiteData {
   DATA_VERSION changes every time the admin deploys new data.
   If the version in localStorage doesn't match, we discard the old cache.
 */
-export const DATA_VERSION = '1778333716763'
+export const DATA_VERSION = '1778470827173'
 
 /* ---------- helpers ---------- */
 let _counter = 0
@@ -92,31 +149,45 @@ export function genId(): string {
 export const defaultContacts: ContactChannel[] = [
   {
     "id": "id_1778317904277_1",
-    "name": "LINE OA",
+    "name": "LINE OA Gemlogin",
     "value": "@gemlogin",
     "link": "https://lin.ee/pi7Rab3",
     "iconType": "line"
   },
   {
     "id": "id_1778317904277_2",
-    "name": "Facebook",
+    "name": "Facebook Gemlogin",
     "value": "Gemlogin Thailand",
     "link": "https://www.facebook.com/profile.php?id=61579265128834",
     "iconType": "facebook"
   },
   {
     "id": "id_1778317904277_5",
-    "name": "Telegram",
+    "name": "Telegram Gemlogin",
     "value": "Gemlogin Thailand",
     "link": "https://t.me/GemLogin_group",
     "iconType": "telegram"
   },
   {
-    "id": "id_1778323617098_1",
-    "name": "ช่องทางใหม่",
-    "value": "",
-    "link": "#",
+    "id": "id_1778469373815_3",
+    "name": "เว็บไซต์",
+    "value": "Gemlogin",
+    "link": "https://gemlogin.io/",
     "iconType": "custom"
+  },
+  {
+    "id": "id_1778469270974_1",
+    "name": "LINE OA MINSoftware",
+    "value": "@minsoftthailand",
+    "link": "https://lin.ee/p0aIBno",
+    "iconType": "line"
+  },
+  {
+    "id": "id_1778469330555_2",
+    "name": "Telegram MINSoftware",
+    "value": "Minsoft Thailand",
+    "link": "https://t.me/minsofth",
+    "iconType": "telegram"
   }
 ]
 
@@ -179,25 +250,53 @@ export const defaultProducts: Product[] = [
 
 export const defaultPricing: PricingPlan[] = [
   {
-    "id": "id_1778317904277_12",
-    "name": "Basic",
-    "nameTh": "แพ็กเกจเริ่มต้น",
-    "price": "990",
-    "period": "/เดือน",
-    "desc": "เหมาะสำหรับผู้เริ่มต้นธุรกิจ หรือใช้งานส่วนตัว",
+    "id": "id_1778468966223_2",
+    "name": "Starter Trial",
+    "nameTh": "ทดลองใช้งานเริ่มต้น",
+    "price": "ฟรี",
+    "period": "/3-14 วัน",
+    "desc": "ทดลองใช้งานระบบ Automation สำหรับการตลาดออนไลน์",
     "featured": false,
-    "cta": "เริ่มต้นใช้งาน",
+    "cta": "เริ่มทดลองใช้งาน",
     "features": [
       {
-        "text": "ใช้งานได้ 1 โปรเจกต์",
+        "text": "ทดลองใช้งานระบบ Automation",
         "included": true
       },
       {
-        "text": "พื้นที่เก็บข้อมูล 5 GB",
+        "text": "รองรับการใช้งานหลายบัญชี",
         "included": true
       },
       {
-        "text": "รายงานพื้นฐาน",
+        "text": "ทีมงานช่วยแนะนำการเริ่มต้น",
+        "included": true
+      },
+      {
+        "text": "ทดสอบฟีเจอร์พื้นฐานได้ทันที",
+        "included": true
+      }
+    ]
+  },
+  {
+    "id": "id_1778317904277_13",
+    "name": "Gemlogin",
+    "nameTh": "แพ็กเกจมาตรฐาน",
+    "price": "16$",
+    "period": "/เดือน",
+    "desc": "เหมาะสำหรับธุรกิจที่ต้องการใช้งาน ระบบที่มีฟีเจอร์ครบ",
+    "featured": true,
+    "cta": "เลือกแพ็กเกจนี้",
+    "features": [
+      {
+        "text": "ใช้งานได้ 1 licence",
+        "included": true
+      },
+      {
+        "text": "ระบบ Automation",
+        "included": true
+      },
+      {
+        "text": "API Access",
         "included": true
       },
       {
@@ -205,96 +304,36 @@ export const defaultPricing: PricingPlan[] = [
         "included": true
       },
       {
-        "text": "ระบบ Automation",
-        "included": false
-      },
-      {
-        "text": "API Access",
-        "included": false
-      },
-      {
-        "text": "Priority Support",
-        "included": false
+        "text": "สามารถออกแบบระบบเองได้ แบบไม่ต้องเขียนโค้ด",
+        "included": true
       }
     ]
   },
   {
-    "id": "id_1778317904277_13",
-    "name": "Standard",
-    "nameTh": "แพ็กเกจมาตรฐาน",
-    "price": "1,990",
+    "id": "id_1778317904277_12",
+    "name": "MINSoftware",
+    "nameTh": "แพ็กเกจเริ่มต้น",
+    "price": "1700",
     "period": "/เดือน",
-    "desc": "เหมาะสำหรับธุรกิจขนาดกลาง ที่ต้องการฟีเจอร์ครบ",
-    "featured": true,
-    "cta": "เลือกแพ็กเกจนี้",
-    "features": [
-      {
-        "text": "ใช้งานได้ 10 โปรเจกต์",
-        "included": true
-      },
-      {
-        "text": "พื้นที่เก็บข้อมูล 50 GB",
-        "included": true
-      },
-      {
-        "text": "รายงานเชิงลึก",
-        "included": true
-      },
-      {
-        "text": "ซัพพอร์ตผ่าน LINE + โทร",
-        "included": true
-      },
-      {
-        "text": "ระบบ Automation",
-        "included": true
-      },
-      {
-        "text": "API Access",
-        "included": true
-      },
-      {
-        "text": "Priority Support",
-        "included": false
-      }
-    ]
-  },
-  {
-    "id": "id_1778317904277_14",
-    "name": "Premium",
-    "nameTh": "แพ็กเกจพรีเมียม",
-    "price": "4,990",
-    "period": "/เดือน",
-    "desc": "เหมาะสำหรับองค์กรที่ต้องการบริการเต็มรูปแบบ",
+    "desc": "เหมาะสำหรับธุรกิจที่ต้องการใช้งาน ระบบที่มีฟีเจอร์ครบ",
     "featured": false,
-    "cta": "สั่งซื้อเลย",
+    "cta": "เริ่มต้นใช้งาน",
     "features": [
       {
-        "text": "ใช้งานได้ไม่จำกัด",
+        "text": "ใช้งานได้ 1 licence",
         "included": true
       },
       {
-        "text": "พื้นที่เก็บข้อมูลไม่จำกัด",
+        "text": "ระบบ Automation",
         "included": true
       },
       {
-        "text": "รายงานเชิงลึก + คาดการณ์",
+        "text": "ซัพพอร์ตผ่าน LINE",
         "included": true
       },
       {
-        "text": "ซัพพอร์ตทุกช่องทาง",
-        "included": true
-      },
-      {
-        "text": "ระบบ Automation ขั้นสูง",
-        "included": true
-      },
-      {
-        "text": "API Access เต็มรูปแบบ",
-        "included": true
-      },
-      {
-        "text": "Priority Support 24/7",
-        "included": true
+        "text": "ไม่สามารถออกแบบระบบเองได้",
+        "included": false
       }
     ]
   }
@@ -336,29 +375,24 @@ export const defaultFaqs: FAQItem[] = [
   {
     "id": "id_1778317904277_19",
     "q": "ชำระเงินช่องทางไหน?",
-    "a": "รองรับหลายช่องทาง ได้แก่ โอนผ่านธนาคาร (SCB, KBank, BBL), PromptPay, บัตรเครดิต/เดบิต และ TrueMoney Wallet สะดวกทุกช่องทาง"
+    "a": "รองรับหลายช่องทาง ได้แก่ โอนผ่านธนาคาร PromptPay, บัตรเครดิต/เดบิต และ Crypto สะดวกทุกช่องทาง"
   },
   {
     "id": "id_1778317904277_20",
     "q": "หลังซื้อได้รับอะไร?",
-    "a": "หลังชำระเงินเรียบร้อย คุณจะได้รับลิงก์เข้าสู่ระบบ พร้อมคู่มือการใช้งาน และข้อมูลการเข้าถึงทั้งหมดผ่านทาง Email และ LINE ภายใน 10 นาที"
+    "a": "หลังชำระเงินเรียบร้อย คุณจะได้รับลิงก์ดาวน์โหลด พร้อมคู่มือการใช้งาน และข้อมูลการเข้าถึงทั้งหมดผ่านทาง Email และ LINE ภายใน 10 นาที"
   },
   {
     "id": "id_1778317904277_21",
     "q": "มีบริการทดลองใช้ฟรีไหม?",
-    "a": "มีครับ! ทุกแพ็กเกจสามารถทดลองใช้ฟรี 7 วัน โดยไม่ต้องผูกบัตรเครดิต หากไม่พอใจสามารถยกเลิกได้ทันทีโดยไม่มีค่าใช้จ่าย"
-  },
-  {
-    "id": "id_1778317904277_22",
-    "q": "ติดต่อแอดมินได้ที่ไหน?",
-    "a": "ติดต่อได้ทุกช่องทาง ทั้ง LINE OA: @jacobstore, Facebook Page, Email: support@jacob.th หรือโทร 02-XXX-XXXX ทีมงานพร้อมให้บริการ 24 ชั่วโมง"
+    "a": "มีครับ! ทุกแพ็กเกจสามารถทดลองใช้ฟรี 3, 7 วัน โดยไม่ต้องผูกบัตรเครดิต หากไม่พอใจสามารถยกเลิกได้ทันทีโดยไม่มีค่าใช้จ่าย"
   }
 ]
 
 export const defaultBrand: BrandInfo = {
   "name": "JACOB",
-  "tagline": "บริการดิจิทัลคุณภาพสูง",
-  "description": "ผู้ให้บริการสินค้าดิจิทัลคุณภาพสูง พร้อมบริการหลังการขายที่ไว้วางใจได้ มุ่งมั่นพัฒนาสินค้าที่ตอบโจทย์ทุกความต้องการ"
+  "tagline": "โซลูชัน Automation สำหรับการตลาดออนไลน์ยุคใหม่",
+  "description": "ผู้ให้บริการซอฟต์แวร์ Automation สำหรับการทำการตลาดออนไลน์ ช่วยจัดการงานซ้ำ ๆ เพิ่มความรวดเร็ว ลดเวลาในการทำงาน และยกระดับประสิทธิภาพการบริหารหลายบัญชีในแพลตฟอร์มต่าง ๆ พร้อมพัฒนาเครื่องมือให้ตอบโจทย์การใช้งานจริงของธุรกิจยุคดิจิทัล"
 }
 
 export const defaultLayout: SectionLayout[] = [
@@ -406,11 +440,95 @@ export const defaultLayout: SectionLayout[] = [
   }
 ]
 
+export const defaultHero: HeroData = {
+  "badge": "Smart Digital Automation",
+  "titleLine1": "จัดการการตลาด",
+  "titleLine2": "แบบอัตโนมัติ",
+  "titleLine3": "เร็ว เสถียร ขยายง่าย",
+  "description": "แพลตฟอร์ม Automation ที่ออกแบบมาเพื่อช่วยให้การตลาดออนไลน์ทำงานได้อย่างมีประสิทธิภาพ ลดงานซ้ำซ้อน เพิ่มความรวดเร็ว และรองรับการบริหารหลายระบบได้ในที่เดียว",
+  "ctaPrimary": "ทดลองใช้ฟรี",
+  "ctaSecondary": "ดูแพ็กเกจ",
+  "trustIndicators": [
+    {
+      "id": "t1",
+      "text": "ลูกค้า 10,000+"
+    },
+    {
+      "id": "t2",
+      "text": "ทีมซัพพอร์ตพร้อมช่วยเหลือ"
+    },
+    {
+      "id": "t3",
+      "text": "เพิ่มประสิทธิภาพการตลาดออนไลน์"
+    }
+  ]
+}
+
+export const defaultBenefits: BenefitsData = {
+  "badge": "ทำไมต้องเลือกเรา",
+  "title": "จุดเด่นที่ช่วยให้การตลาดง่ายขึ้น",
+  "highlight": "Automation",
+  "description": "พัฒนาซอฟต์แวร์ Automation สำหรับการตลาดออนไลน์ ที่ช่วยลดงานซ้ำซ้อน เพิ่มความรวดเร็วในการทำงาน และบริหารหลายบัญชีได้อย่างมีประสิทธิภาพ พร้อมระบบที่ออกแบบมาให้ใช้งานง่ายและตอบโจทย์การใช้งานจริง",
+  "items": [
+    {
+      "id": "b1",
+      "title": "ใช้งานง่าย",
+      "desc": "ออกแบบ UI/UX ให้ใช้งานสะดวก รองรับทั้งมือใหม่และผู้ใช้งานระดับมืออาชีพ ลดความซับซ้อนในการจัดการระบบ Automation",
+      "iconType": "blue"
+    },
+    {
+      "id": "b2",
+      "title": "ระบบเสถียร",
+      "desc": "พัฒนาระบบให้ทำงานได้อย่างต่อเนื่อง รองรับการทำงานหลายบัญชี พร้อมลดปัญหาการใช้งานระหว่างทำงานอัตโนมัติ",
+      "iconType": "emerald"
+    },
+    {
+      "id": "b3",
+      "title": "รองรับหลายแพลตฟอร์ม",
+      "desc": "ใช้งานได้ทั้งบน Windows , MacOS และระบบ Cloud รองรับการจัดการงานการตลาดออนไลน์ได้จากทุกที่",
+      "iconType": "violet"
+    },
+    {
+      "id": "b4",
+      "title": "ซัพพอร์ตพร้อมดูแล",
+      "desc": "ทีมงานพร้อมให้คำแนะนำและช่วยเหลือการใช้งาน ตอบคำถามและแก้ไขปัญหาได้อย่างรวดเร็ว",
+      "iconType": "amber"
+    }
+  ],
+  "stats": [
+    {
+      "id": "s1",
+      "value": "10,000+",
+      "label": "ลูกค้าทั่วประเทศ"
+    },
+    {
+      "id": "s2",
+      "value": "99.9%",
+      "label": "ระบบออนไลน์ตลอด"
+    },
+    {
+      "id": "s3",
+      "value": "8/6",
+      "label": "ทีมซัพพอร์ต"
+    },
+    {
+      "id": "s4",
+      "value": "4.9/5",
+      "label": "คะแนนความพึงพอใจ"
+    }
+  ]
+}
+
+export const defaultContactSection: ContactSectionData = undefined
+
 export const defaultSiteData: SiteData = {
   version: DATA_VERSION,
   layout: defaultLayout,
   brand: defaultBrand,
+  hero: defaultHero,
+  benefits: defaultBenefits,
   contacts: defaultContacts,
+  contactSection: defaultContactSection,
   products: defaultProducts,
   pricing: defaultPricing,
   reviews: defaultReviews,
