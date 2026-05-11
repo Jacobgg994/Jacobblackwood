@@ -137,7 +137,7 @@ export interface SiteData {
   DATA_VERSION changes every time the admin deploys new data.
   If the version in localStorage doesn't match, we discard the old cache.
 */
-export const DATA_VERSION = '1778470827173'
+export const DATA_VERSION = '1778472481098'
 
 /* ---------- helpers ---------- */
 let _counter = 0
@@ -200,7 +200,10 @@ export const defaultProducts: Product[] = [
     "highlight": "anti-detection ที่ทรงพลัง",
     "iconType": "gear",
     "image": "https://img1.pic.in.th/images/ChatGPT-Image-May-9-2026-06_09_21-PM.png",
-    "brand": "GemSoftware"
+    "brand": "GemSoftware",
+    "tags": [
+      "ขายดี"
+    ]
   },
   {
     "id": "id_1778317904277_7",
@@ -240,9 +243,54 @@ export const defaultProducts: Product[] = [
   },
   {
     "id": "id_1778317904277_11",
-    "name": "ระบบ Automation",
-    "desc": "ทำงานซ้ำ ๆ อัตโนมัติ ลดภาระ เพิ่มประสิทธิภาพทีมงาน",
-    "highlight": "ประหยัดเวลา 80%",
+    "name": "MaxTwitter ",
+    "desc": "โปรแกรมฟาร์มทวิตเตอร์",
+    "highlight": "จัดการบัญชีทวิตเตอร์",
+    "iconType": "gear",
+    "image": "https://img2.pic.in.th/block_minsoftware.png",
+    "brand": "MINSoftware"
+  },
+  {
+    "id": "id_1778471610165_1",
+    "name": "MaxReel",
+    "desc": "โปรแกรมโพสต์คลิป Reels",
+    "highlight": "โพสต์คลิป Reels อัตโนมัติ",
+    "iconType": "gear",
+    "brand": "MINSoftware",
+    "image": "https://img2.pic.in.th/block_minsoftware.png"
+  },
+  {
+    "id": "id_1778471614411_2",
+    "name": "MaxPage ",
+    "desc": "โปรแกรมฟาร์มเพจเฟสบุ๊ค",
+    "highlight": "จัดการบัญชีเพจเฟสบุ๊ค",
+    "iconType": "gear",
+    "brand": "MINSoftware",
+    "image": "https://img2.pic.in.th/block_minsoftware.png"
+  },
+  {
+    "id": "id_1778471614675_3",
+    "name": "CloudPhoneTiktok ",
+    "desc": "โปรแกรมฟาร์ม Tiktok แบบมือถือ ",
+    "highlight": "จัดการบัญชีติ๊กต็อก",
+    "iconType": "gear",
+    "brand": "MINSoftware",
+    "image": "https://img2.pic.in.th/block_minsoftware.png"
+  },
+  {
+    "id": "id_1778471614875_4",
+    "name": "MaxInstagramPhone  ",
+    "desc": "โปรแกรมฟาร์ม IG แบบมือถือ",
+    "highlight": "จัดการบัญชีอินสตาแกรม",
+    "iconType": "gear",
+    "brand": "MINSoftware",
+    "image": "https://img2.pic.in.th/block_minsoftware.png"
+  },
+  {
+    "id": "id_1778471840557_7",
+    "name": " MaxInsta Chrome",
+    "desc": "โปรแกรมฟาร์ม IG แบบโครม",
+    "highlight": "จัดการบัญชีอินสตาแกรม",
     "iconType": "gear",
     "image": "https://img2.pic.in.th/block_minsoftware.png",
     "brand": "MINSoftware"
@@ -520,16 +568,7 @@ export const defaultBenefits: BenefitsData = {
   ]
 }
 
-export const defaultContactSection: ContactSectionData = {
-  badge: "ติดต่อเรา",
-  title1: "พร้อม",
-  highlight: "เริ่มต้น",
-  title2: "แล้วหรือยัง?",
-  description: "สนใจสินค้า ทักหาแอดมินเพื่อสอบถามรายละเอียดได้ทันที",
-  ctaTitle: "เริ่มต้นใช้งานวันนี้",
-  ctaDesc: "ไม่ว่าคุณจะมีคำถามอะไร ทีมงานพร้อมให้บริการคุณ ทักหาเราได้เลย ไม่ต้องรอ!",
-  ctaButton: "ติดต่อเราเลย"
-}
+export const defaultContactSection: ContactSectionData = undefined
 
 export const defaultSiteData: SiteData = {
   version: DATA_VERSION,
