@@ -78,6 +78,7 @@ function generateDefaultDataTs(data: any, version: string): string {
   content = content.replace(/export const DATA_VERSION = '.*'/, `export const DATA_VERSION = '${version}'`)
 
   const replaceVar = (varName: string, value: any) => {
+    if (value === undefined) return;
     // Matches export const <varName>: <Type> = <value> until the next export
     const typeMatch = content.match(new RegExp(`export const ${varName}: ([a-zA-Z\\[\\]]+) =`))
     if (typeMatch) {
