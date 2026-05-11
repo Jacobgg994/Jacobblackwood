@@ -85,6 +85,23 @@ export default function ProductSection() {
                     </div>
                   </div>
                 )}
+                {product.tags && product.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mb-3">
+                    {product.tags.map((tag, idx) => {
+                      const isHot = tag === 'ขายดี' || tag === 'Best Seller';
+                      const isRec = tag === 'แนะนำ' || tag === 'Recommended';
+                      let colorCls = 'bg-gray-100 text-gray-600 border-gray-200';
+                      if (isHot) colorCls = 'bg-red-50 text-red-600 border-red-100';
+                      else if (isRec) colorCls = 'bg-blue-50 text-blue-600 border-blue-100';
+                      else colorCls = 'bg-amber-50 text-amber-600 border-amber-100';
+                      return (
+                        <span key={idx} className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded border ${colorCls}`}>
+                          {isHot && '🔥 '}{isRec && '⭐ '}{tag}
+                        </span>
+                      )
+                    })}
+                  </div>
+                )}
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{product.name}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed mb-4">{product.desc}</p>
                 {product.highlight && (

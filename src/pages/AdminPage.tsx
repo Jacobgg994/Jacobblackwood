@@ -382,7 +382,11 @@ function ProductsTab({ ctx, showToast }: { ctx: ReturnType<typeof useSiteData>; 
                   <label className={labelCls}>รายละเอียด</label>
                   <input value={p.desc} onChange={e => updateProduct(p.id, { desc: e.target.value })} className={inputCls} />
                 </div>
-                <div className="sm:col-span-2 lg:col-span-4">
+                <div className="sm:col-span-2 lg:col-span-2">
+                  <label className={labelCls}>แท็กสินค้า (คั่นด้วยลูกน้ำ เช่น ขายดี, แนะนำ)</label>
+                  <input value={(p.tags || []).join(', ')} onChange={e => updateProduct(p.id, { tags: e.target.value.split(',').map(s => s.trim()).filter(Boolean) })} className={inputCls} placeholder="ขายดี, แนะนำ" />
+                </div>
+                <div className="sm:col-span-2 lg:col-span-2">
                   <label className={labelCls}>URL รูปภาพ (เว้นว่างเพื่อใช้ไอคอน)</label>
                   <input value={p.image || ''} onChange={e => updateProduct(p.id, { image: e.target.value })} className={inputCls} placeholder="https://..." />
                 </div>
